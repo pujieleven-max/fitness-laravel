@@ -193,15 +193,18 @@
             border-color: #E2E8F0 !important;
         }
 
-        /* 3. Controls, Secondary Buttons & Badges (slate-800 with all opacities) */
-        html:not(.dark) [class*="bg-slate-800"]:not([class*="bg-emerald"]):not([class*="bg-cyan"]):not([class*="bg-amber"]):not([class*="bg-rose"]):not([class*="bg-violet"]):not(.btn-theme-primary):not([class*="from-"]):not([class*="to-"]) {
+        /* 3. Controls, Secondary Buttons & Badges (slate-800 & slate-700 with all opacities) */
+        html:not(.dark) [class*="bg-slate-800"]:not([class*="bg-emerald"]):not([class*="bg-cyan"]):not([class*="bg-amber"]):not([class*="bg-rose"]):not([class*="bg-violet"]):not(.btn-theme-primary):not([class*="from-"]):not([class*="to-"]),
+        html:not(.dark) [class*="bg-slate-700"]:not([class*="bg-emerald"]):not([class*="bg-cyan"]):not([class*="bg-amber"]):not([class*="bg-rose"]):not([class*="bg-violet"]):not(.btn-theme-primary):not([class*="from-"]):not([class*="to-"]) {
             background-color: #F1F5F9 !important;
             border-color: #CBD5E1 !important;
             color: #1E293B !important;
         }
 
         html:not(.dark) button[class*="bg-slate-800"]:hover,
+        html:not(.dark) button[class*="bg-slate-700"]:hover,
         html:not(.dark) a[class*="bg-slate-800"]:hover,
+        html:not(.dark) a[class*="bg-slate-700"]:hover,
         html:not(.dark) [class*="hover:bg-slate-700"]:hover,
         html:not(.dark) [class*="hover:bg-slate-800"]:hover {
             background-color: #E2E8F0 !important;
@@ -380,6 +383,87 @@
         html:not(.dark) .text-amber-300   { color: #B45309 !important; }
         html:not(.dark) .text-rose-300    { color: #BE123C !important; }
         html:not(.dark) .text-purple-300  { color: #6D28D9 !important; }
+
+        /* Crisp Status Badges & Pills in Light Mode */
+        html:not(.dark) span[class*="bg-slate-700"],
+        html:not(.dark) span[class*="bg-slate-800"],
+        html:not(.dark) .badge-slate {
+            background-color: #E2E8F0 !important;
+            border: 1px solid #CBD5E1 !important;
+            color: #1E293B !important;
+        }
+
+        html:not(.dark) span[class*="bg-slate-700"].text-slate-300,
+        html:not(.dark) span[class*="bg-slate-800"].text-slate-300,
+        html:not(.dark) span[class*="bg-slate-700"] .text-slate-300,
+        html:not(.dark) span[class*="bg-slate-800"] .text-slate-300,
+        html:not(.dark) span[class*="bg-slate-700"].text-slate-400,
+        html:not(.dark) span[class*="bg-slate-800"].text-slate-400 {
+            color: #1E293B !important;
+        }
+
+        html:not(.dark) [class*="bg-amber-500/20"],
+        html:not(.dark) [class*="bg-amber-500/10"],
+        html:not(.dark) [class*="bg-amber-500/15"],
+        html:not(.dark) [class*="bg-amber-500/30"] {
+            background-color: #FEF3C7 !important;
+            border-color: #FDE68A !important;
+            color: #B45309 !important;
+        }
+        html:not(.dark) [class*="bg-amber-500/20"] *,
+        html:not(.dark) [class*="bg-amber-500/10"] * {
+            color: #B45309 !important;
+        }
+
+        html:not(.dark) [class*="bg-emerald-500/20"],
+        html:not(.dark) [class*="bg-emerald-500/10"],
+        html:not(.dark) [class*="bg-emerald-500/15"],
+        html:not(.dark) [class*="bg-emerald-500/30"] {
+            background-color: #DCFCE7 !important;
+            border-color: #86EFAC !important;
+            color: #15803D !important;
+        }
+        html:not(.dark) [class*="bg-emerald-500/20"] *,
+        html:not(.dark) [class*="bg-emerald-500/10"] * {
+            color: #15803D !important;
+        }
+
+        html:not(.dark) [class*="bg-cyan-500/20"],
+        html:not(.dark) [class*="bg-cyan-500/10"],
+        html:not(.dark) [class*="bg-cyan-500/15"],
+        html:not(.dark) [class*="bg-cyan-500/30"] {
+            background-color: #CFFAFE !important;
+            border-color: #7DD3FC !important;
+            color: #0369A1 !important;
+        }
+        html:not(.dark) [class*="bg-cyan-500/20"] *,
+        html:not(.dark) [class*="bg-cyan-500/10"] * {
+            color: #0369A1 !important;
+        }
+
+        html:not(.dark) [class*="bg-rose-500/20"],
+        html:not(.dark) [class*="bg-rose-500/10"],
+        html:not(.dark) [class*="bg-rose-500/15"],
+        html:not(.dark) [class*="bg-rose-500/30"] {
+            background-color: #FFE4E6 !important;
+            border-color: #FDA4AF !important;
+            color: #BE123C !important;
+        }
+        html:not(.dark) [class*="bg-rose-500/20"] *,
+        html:not(.dark) [class*="bg-rose-500/10"] * {
+            color: #BE123C !important;
+        }
+
+        html:not(.dark) [class*="bg-purple-500/20"],
+        html:not(.dark) [class*="bg-violet-500/20"] {
+            background-color: #EDE9FE !important;
+            border-color: #DDD6FE !important;
+            color: #6D28D9 !important;
+        }
+        html:not(.dark) [class*="bg-purple-500/20"] *,
+        html:not(.dark) [class*="bg-violet-500/20"] * {
+            color: #6D28D9 !important;
+        }
 
         /* 12. Bookings Calendar Matrix */
         html:not(.dark) [class*="bg-slate-900/50"],

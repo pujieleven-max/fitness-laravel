@@ -122,7 +122,7 @@
                                     </button>
                                 </form>
                             @else
-                                <span class="text-xs font-bold text-slate-400 capitalize">{{ $bk->status }}</span>
+                                <span class="inline-flex px-2 py-0.5 rounded text-[10px] font-bold uppercase {{ $bk->status === 'confirmed' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : ($bk->status === 'completed' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30' : ($bk->status === 'pending' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-rose-500/20 text-rose-300 border border-rose-500/30')) }}">{{ $bk->status }}</span>
                             @endif
                         </div>
                     </div>
