@@ -1,59 +1,269 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🏋️‍♂️ FitZone Gym - POS & Fitness Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+[![Laravel Version](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
+[![PHP Version](https://img.shields.io/badge/PHP-%3E%3D%208.2-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![Vite](https://img.shields.io/badge/Vite-7.x-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-## About Laravel
+**FitZone Gym** adalah aplikasi web komprehensif untuk manajemen operasional pusat kebugaran (fitness center / gym) dan sistem kasir (Point of Sale). Dirancang dengan antarmuka modern bernuansa *Cyber Dark Mode & Glassmorphism*, aplikasi ini membantu pemilik gym dan kasir frontdesk dalam mengelola keanggotaan, penjualan suplemen, tiket gym, sesi personal trainer, jadwal kelas, hingga analisis laba/rugi keuangan secara real-time.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🌟 Fitur Utama
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 🛒 1. Point of Sale (POS) Kasir Terintegrasi
+- **Katalog Produk Dinamis**: Pencarian dan filter cepat produk suplemen, minuman berenergi, serta tiket masuk & paket langganan gym.
+- **Dukungan Pelanggan**: Transaksi untuk member terdaftar maupun tamu umum (*Walk-in Customer*).
+- **Kalkulasi Otomatis**: Perhitungan otomatis subtotal, diskon fleksibel, pajak, total tagihan, dan uang kembalian tunai.
+- **Multi-Metode Pembayaran**: Mendukung pembayaran *Cash*, *QRIS*, dan *Transfer Bank*.
+- **Cetak Struk Transaksi**: Halaman cetak invoice/struk termal siap cetak dengan logo gym dan catatan kaki kustom.
+- **Pembatalan Pesanan (*Void Order*)**: Khusus role Owner, pesanan yang dibatalkan akan otomatis mengembalikan stok suplemen (*stock rollback*).
 
-## Learning Laravel
+### 📦 2. Manajemen Inventaris Suplemen & Mutasi Stok
+- **Katalog Suplemen Lengkap**: Manajemen SKU, barcode, kategori, satuan (pcs, botol, scoop, box), harga beli (HPP), dan harga jual.
+- **Peringatan Stok Rendah (*Low Stock Alert*)**: Notifikasi visual ketika stok suplemen mencapai batas minimum (*reorder point*).
+- **Restock Masuk**: Form pencatatan penambahan stok dari supplier dengan riwayat biaya beli.
+- **Penyesuaian Stok Manual (*Stock Adjustment*)**: Fitur audit stok untuk koreksi fisik, barang rusak, kadaluarsa, atau sampel.
+- **Kartu Riwayat Mutasi Stok (*Audit Trail*)**: Pencatatan riwayat setiap pergerakan stok keluar/masuk beserta referensi nomor invoice dan petugas kasir.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 👥 3. Keanggotaan & Data Member (Gym Membership)
+- **Data Member Terpusat**: Nama, nomor telepon/WhatsApp, email, tanggal lahir, kontak darurat, dan nomor kartu RFID/member code.
+- **Masa Aktif Keanggotaan**: Tanggal mulai dan tanggal jatuh tempo dengan indikator status aktif atau kadaluarsa.
+- **Pencarian Cepat**: Mempermudah frontdesk memilih data member saat checkout tiket atau reservasi kelas.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 🎟️ 4. Tiket Harian & Paket Langganan (Gym Packages)
+- **Paket Fleksibel**: Konfigurasi Tiket Harian (*Daily Pass*), Tiket Mingguan, Paket Bulanan, hingga Langganan Tahunan.
+- **Aktivasi Paket**: Tombol cepat aktifkan/nonaktifkan ketersediaan paket untuk tampilan kasir POS.
 
-## Laravel Sponsors
+### 🧘‍♀️ 5. Trainer & Jadwal Kelas Kebugaran
+- **Manajemen Personal Trainer**: Biodata pelatih, spesialisasi keahlian (Bodybuilding, Yoga, HIIT, Cardio), tarif sesi, dan nomor kontak.
+- **Jadwal Kelas Fitness**: Pengaturan jadwal kelas (Zumba, Yoga, Pilates, Spinning, Crossfit), batas kapasitas kuota peserta, dan instruktur penanggung jawab.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 📅 6. Reservasi & Booking Sesi
+- **Booking Jadwal Latihan**: Pendaftaran member untuk sesi Personal Trainer maupun kelas kebugaran.
+- **Pelacakan Status**: Indikator status booking (*Pending*, *Confirmed*, *Completed*, *Cancelled*).
+- **Tampilan Kalender Jadwal**: Visualisasi agenda latihan per hari/minggu untuk mengontrol kapasitas studio.
 
-### Premium Partners
+### 📊 7. Laporan Finansial & Analisis Laba Rugi (Owner Only)
+- **Ringkasan Keuangan**: Total omset bruto, total HPP/modal, dan laba kotor (*Gross Profit*).
+- **Filter Fleksibel**: Laporan harian, mingguan, bulanan, atau rentang tanggal kustom (*custom date range*).
+- **Komparasi Penjualan**: Analisis pendapatan kategori suplemen vs paket gym.
+- **Rekapitulasi Pembayaran**: Proporsi pembayaran via Tunai, QRIS, dan Transfer.
+- **Cetak Laporan**: Siap diexport atau dicetak langsung untuk keperluan rekap akuntansi.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 🔐 8. Kontrol Akses Berbasis Peran (Role-Based Access Control)
+- **Owner**: Hak akses penuh ke seluruh modul, laporan laba rugi, manajemen staf pengguna, pembatalan invoice transaksi, dan konfigurasi gym.
+- **Kasir / Frontdesk**: Dikhususkan untuk operasional harian: kasir POS, stok suplemen, pendaftaran member, dan pencatatan booking.
+- **Manajemen Pengguna**: Tambah, edit, nonaktifkan/aktifkan akun kasir serta reset password.
 
-## Contributing
+### 🎨 9. Pengaturan Gym & Tampilan Dinamis
+- **Identitas Bisnis**: Kustomisasi Nama Gym, Tagline, Alamat, No. WhatsApp, Email, dan Akun Instagram.
+- **Upload Logo**: Unggah logo gym resmi yang langsung diterapkan di dashboard, login hero, dan struk POS.
+- **Pengaturan Mata Uang & Struk**: Simbol mata uang (Rp) dan catatan motivasi/ucapan terima kasih di struk belanja.
+- **Kustomisasi Tema Cyber**: Pilihan palet warna aksen (*Cyber Emerald*, *Electric Cyan*, *Sunset Gold*, *Flame Orange*, *Neon Rose*, *Ultra Violet*).
+- **Dark & Light Mode Switcher**: Dukungan mode gelap (*default*) dan terang dengan penyimpanan preferensi di browser (*LocalStorage*).
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## 🛠️ Teknologi yang Digunakan
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+| Komponen | Teknologi / Pustaka |
+| :--- | :--- |
+| **Backend Framework** | [Laravel 12](https://laravel.com) |
+| **Bahasa Pemrograman** | [PHP 8.2+](https://php.net) |
+| **Database** | MySQL / MariaDB (XAMPP Compatible) |
+| **Styling & CSS** | [Tailwind CSS v4](https://tailwindcss.com) |
+| **Build Tool & Bundler**| [Vite 7](https://vitejs.dev) |
+| **Interaktivitas UI** | [Alpine.js 3](https://alpinejs.dev) |
+| **Data Visualization** | [Chart.js](https://www.chartjs.org) |
+| **Ikonografi** | [FontAwesome 6 Free](https://fontawesome.com) |
+| **Tipografi** | Google Fonts (*Plus Jakarta Sans*, *Outfit*, *JetBrains Mono*) |
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 💻 Persyaratan Sistem
 
-## License
+Sebelum menjalankan aplikasi, pastikan komputer/server Anda telah terpasang:
+- **PHP >= 8.2** dengan ekstensi aktif:
+  - `pdo_mysql`, `mbstring`, `openssl`, `tokenizer`, `xml`, `ctype`, `json`, `bcmath`, `fileinfo`, `gd`
+- **Composer >= 2.x**
+- **Node.js >= 18.x** dan **NPM**
+- **MySQL >= 5.7** atau **MariaDB >= 10.4** (disarankan menggunakan XAMPP di Windows)
+- **Web Browser Modern** (Chrome, Firefox, Edge, Safari)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## 🚀 Panduan Instalasi Cepat
+
+Ikuti langkah-langkah di bawah ini untuk menjalankan aplikasi di lingkungan lokal (Local Development):
+
+### 1. Clone Repository
+```bash
+git clone https://github.com/pujieleven-max/fitness-laravel.git
+cd fitness-laravel
+```
+
+### 2. Install Dependensi PHP & Node.js
+```bash
+# Install PHP dependencies
+composer install
+
+# Install Javascript dependencies
+npm install
+```
+
+### 3. Konfigurasi Environment File (`.env`)
+Salin file `.env.example` menjadi `.env`:
+```bash
+# Windows PowerShell
+copy .env.example .env
+
+# Atau Command Prompt / Bash
+cp .env.example .env
+```
+
+Buka file `.env` dan sesuaikan koneksi database MySQL Anda:
+```env
+APP_NAME="FitZone Gym & POS"
+APP_ENV=local
+APP_DEBUG=true
+APP_URL=http://localhost:8000
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=fitness_laravel
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+> **Catatan:** Buat database baru bernama `fitness_laravel` di MySQL / phpMyAdmin terlebih dahulu sebelum menjalankan migrasi.
+
+### 4. Generate Application Key
+```bash
+php artisan key:generate
+```
+
+### 5. Jalankan Migrasi & Seeder Database
+Perintah ini akan membuat semua tabel database beserta data demo awal (pengguna, kategori, suplemen, paket, trainer, kelas, dan contoh transaksi):
+```bash
+php artisan migrate --seed
+```
+
+### 6. Buat Tautan Simbolik Storage (Storage Link)
+Perintah ini wajib dijalankan agar logo gym dan berkas gambar yang diunggah dapat diakses dari browser:
+```bash
+php artisan storage:link
+```
+
+### 7. Jalankan Aplikasi
+Buka 2 tab terminal untuk menjalankan server aplikasi dan asset bundler:
+
+**Terminal 1 (Laravel Server):**
+```bash
+php artisan serve
+```
+
+**Terminal 2 (Vite Frontend Compiler):**
+```bash
+npm run dev
+```
+
+Aplikasi kini dapat diakses melalui browser di alamat:
+👉 **[http://127.0.0.1:8000](http://127.0.0.1:8000)** atau **[http://localhost:8000](http://localhost:8000)**
+
+---
+
+## 🔑 Akun Demo Bawaan
+
+Setelah menjalankan `php artisan migrate --seed`, Anda dapat langsung masuk menggunakan akun default berikut:
+
+| Peran (Role) | Email | Password | Akses & Wewenang |
+| :--- | :--- | :--- | :--- |
+| **Owner (Pemilik)** | `owner@fitzone.com` | `password` | **Akses Penuh**: Laporan Laba/Rugi, Kelola Pengguna, Pembatalan Transaksi, Pengaturan Gym, POS & Master Data. |
+| **Kasir 1 (Frontdesk)** | `kasir@fitzone.com` | `password` | **Operasional Kasir**: Transaksi POS, Cek Stok & Restock Suplemen, Registrasi Member, Booking Kelas. |
+| **Kasir 2 (Budi)** | `budi@fitzone.com` | `password` | **Operasional Kasir**: Akses kasir frontdesk shift alternatif. |
+
+---
+
+## 📂 Struktur Direktori Utama
+
+```text
+fitness-laravel/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── AuthController.php          # Otentikasi login & logout
+│   │   │   ├── BookingController.php       # Reservasi kelas & personal trainer
+│   │   │   ├── DashboardController.php     # Ringkasan analitik & grafik performa
+│   │   │   ├── GymPackageController.php    # Tiket harian & paket membership gym
+│   │   │   ├── MemberController.php        # Manajemen keanggotaan member
+│   │   │   ├── PosController.php           # Kasir POS, invoice, struk & void order
+│   │   │   ├── ReportController.php        # Laporan finansial & laba kotor
+│   │   │   ├── SettingController.php       # Pengaturan profil, logo, & tema gym
+│   │   │   ├── SupplementController.php    # Suplemen, restock & mutasi stok
+│   │   │   ├── TrainerController.php       # Personal trainer & jadwal kelas
+│   │   │   └── UserController.php          # Manajemen user (Owner & Kasir)
+│   │   └── Middleware/
+│   │       └── RoleMiddleware.php          # Filter otorisasi hak akses peran
+│   └── Models/                             # Eloquent Models (12 Model terelasi)
+├── database/
+│   ├── migrations/                         # Skema database terstruktur
+│   └── seeders/
+│       └── DatabaseSeeder.php              # Data dummy lengkap untuk pengujian
+├── public/
+│   └── storage/                            # Symlink berkas upload publik
+├── resources/
+│   ├── css/                                # Tailwind styling
+│   └── views/
+│       ├── layouts/
+│       │   └── app.blade.php               # Master layout (Dark/Light & Cyber Theme)
+│       ├── auth/                           # Halaman login
+│       ├── bookings/                       # Modul reservasi & kalender
+│       ├── dashboard/                      # Widget dasbor analitik
+│       ├── members/                        # Modul data anggota gym
+│       ├── packages/                       # Modul paket membership
+│       ├── pos/                            # Layar kasir POS & cetak struk
+│       ├── reports/                        # Modul laporan & laba rugi
+│       ├── settings/                       # Modul pengaturan sistem
+│       ├── supplements/                    # Modul inventaris suplemen
+│       ├── trainers/                       # Modul pelatih & kelas
+│       └── users/                          # Modul user management
+└── routes/
+    └── web.php                             # Rute aplikasi & proteksi hak akses
+```
+
+---
+
+## ⚙️ Skrip Composer Tambahan
+
+Proyek ini telah dilengkapi skrip praktis di `composer.json`:
+
+```bash
+# Setup otomatis proyek baru (install vendor, copy env, key gen, migrate, build assets)
+composer run setup
+
+# Menjalankan development mode dengan concurrency (Server, Vite, Logs)
+composer run dev
+
+# Menjalankan pengujian (Automated Tests)
+composer run test
+```
+
+---
+
+## 🤝 Kontribusi
+
+Kontribusi selalu terbuka! Jika Anda memiliki saran perbaikan, fitur tambahan, atau laporan bug:
+1. *Fork* repository ini.
+2. Buat branch fitur baru (`git checkout -b feature/fitur-keren`).
+3. *Commit* perubahan Anda (`git commit -m 'Menambahkan fitur keren'`).
+4. *Push* ke branch (`git push origin feature/fitur-keren`).
+5. Buka sebuah *Pull Request*.
+
+---
+
+## 📄 Lisensi
+
+Proyek ini dirilis di bawah lisensi terbuka [MIT License](LICENSE). Bebas digunakan, dikembangkan, dan disesuaikan untuk keperluan komersial maupun personal.
