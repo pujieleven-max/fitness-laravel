@@ -63,6 +63,13 @@
     <!-- FontAwesome 6 Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+    <!-- jQuery (Required for Select2) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- Select2 CSS & JS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.3/dist/cdn.min.js"></script>
 
@@ -445,9 +452,193 @@
             background: var(--primary-accent);
         }
 
-        ::selection {
-            background: var(--primary-accent);
-            color: #060911;
+        /* ========================================================
+           CYBER GLASSMORPHIC SELECT2 MODERN STYLING
+           ======================================================== */
+        .select2-container {
+            max-width: 100%;
+            vertical-align: middle;
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+        }
+        .select2-container.w-full,
+        .w-full + .select2-container,
+        .select2-full + .select2-container {
+            width: 100% !important;
+        }
+
+        /* Single Selection Box */
+        .select2-container--default .select2-selection--single {
+            background-color: #0f172a !important;
+            border: 1px solid #334155 !important;
+            border-radius: 0.75rem !important; /* rounded-xl (12px) */
+            height: 42px !important;
+            padding: 0 0.875rem !important;
+            display: flex !important;
+            align-items: center !important;
+            transition: all 0.2s ease !important;
+            box-shadow: none !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #f1f5f9 !important;
+            font-size: 0.8125rem !important;
+            font-weight: 500 !important;
+            padding-left: 0 !important;
+            padding-right: 1.5rem !important;
+            line-height: 40px !important;
+            width: 100% !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__placeholder {
+            color: #64748b !important;
+            font-size: 0.8125rem !important;
+        }
+
+        /* Arrow dropdown indicator */
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 100% !important;
+            right: 0.75rem !important;
+            top: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 20px !important;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow b {
+            border-color: #94a3b8 transparent transparent transparent !important;
+            border-width: 5px 4.5px 0 4.5px !important;
+            transition: transform 0.2s ease !important;
+        }
+        .select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+            border-color: transparent transparent #94a3b8 transparent !important;
+            border-width: 0 4.5px 5px 4.5px !important;
+        }
+
+        /* Focus & Open States */
+        .select2-container--default.select2-container--focus .select2-selection--single,
+        .select2-container--default.select2-container--open .select2-selection--single {
+            border-color: var(--primary-accent) !important;
+            box-shadow: 0 0 0 2px var(--primary-glow) !important;
+            outline: none !important;
+        }
+
+        /* Dropdown Container */
+        .select2-dropdown {
+            background-color: #0b0f19 !important;
+            border: 1px solid #334155 !important;
+            border-radius: 0.75rem !important;
+            box-shadow: 0 20px 30px -5px rgba(0, 0, 0, 0.7), 0 10px 15px -5px rgba(0, 0, 0, 0.5) !important;
+            overflow: hidden !important;
+            z-index: 999999 !important;
+            backdrop-filter: blur(16px) !important;
+            -webkit-backdrop-filter: blur(16px) !important;
+        }
+
+        /* Search Box inside Dropdown */
+        .select2-search--dropdown {
+            padding: 0.6rem !important;
+            background-color: #0b0f19 !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+        .select2-search--dropdown .select2-search__field {
+            background-color: #0f172a !important;
+            border: 1px solid #334155 !important;
+            border-radius: 0.5rem !important;
+            color: #f1f5f9 !important;
+            padding: 0.45rem 0.75rem !important;
+            font-size: 0.75rem !important;
+            outline: none !important;
+            font-family: inherit !important;
+            transition: border-color 0.2s ease !important;
+            width: 100% !important;
+        }
+        .select2-search--dropdown .select2-search__field:focus {
+            border-color: var(--primary-accent) !important;
+            box-shadow: 0 0 0 1px var(--primary-glow) !important;
+        }
+
+        /* Results List */
+        .select2-results__options {
+            max-height: 240px !important;
+            padding: 0.35rem !important;
+            scrollbar-width: thin;
+            scrollbar-color: #334155 #0b0f19;
+        }
+        .select2-results__options::-webkit-scrollbar {
+            width: 6px;
+        }
+        .select2-results__options::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+        .select2-results__options::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 9999px;
+        }
+
+        /* Option Items */
+        .select2-results__option {
+            padding: 0.5rem 0.75rem !important;
+            font-size: 0.8125rem !important;
+            color: #cbd5e1 !important;
+            border-radius: 0.5rem !important;
+            margin-bottom: 2px !important;
+            transition: all 0.15s ease !important;
+        }
+        .select2-results__option--highlighted[aria-selected] {
+            background: linear-gradient(135deg, var(--primary-accent) 0%, var(--primary-hover) 100%) !important;
+            color: #020617 !important;
+            font-weight: 600 !important;
+        }
+        .select2-results__option[aria-selected=true] {
+            background-color: rgba(16, 185, 129, 0.15) !important;
+            color: var(--primary-accent) !important;
+            font-weight: 600 !important;
+        }
+
+        /* Clear button */
+        .select2-container--default .select2-selection--single .select2-selection__clear {
+            color: #f43f5e !important;
+            font-size: 1.1rem !important;
+            margin-right: 0.5rem !important;
+            cursor: pointer;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__clear:hover {
+            color: #fb7185 !important;
+        }
+
+        /* Light Mode Customizations */
+        html:not(.dark) .select2-container--default .select2-selection--single {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+        }
+        html:not(.dark) .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #0f172a !important;
+        }
+        html:not(.dark) .select2-dropdown {
+            background-color: #ffffff !important;
+            border-color: #e2e8f0 !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1) !important;
+        }
+        html:not(.dark) .select2-search--dropdown {
+            background-color: #f8fafc !important;
+            border-bottom-color: #e2e8f0 !important;
+        }
+        html:not(.dark) .select2-search--dropdown .select2-search__field {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+        html:not(.dark) .select2-results__option {
+            color: #334155 !important;
+        }
+        html:not(.dark) .select2-results__option--highlighted[aria-selected] {
+            color: #ffffff !important;
+        }
+        html:not(.dark) .select2-results__options::-webkit-scrollbar-track {
+            background: #f8fafc;
+        }
+        html:not(.dark) .select2-results__options::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
         }
     </style>
     @stack('styles')
@@ -786,6 +977,108 @@
             </main>
         </div>
     </div>
+    <!-- Global Select2 Initialization & Alpine.js Synchronization -->
+    <script>
+        // 1. Intercept HTMLSelectElement.prototype.value setter to notify Select2 of programmatic changes (e.g. Alpine x-model)
+        (function() {
+            var originalValDesc = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value');
+            if (originalValDesc && originalValDesc.set) {
+                Object.defineProperty(HTMLSelectElement.prototype, 'value', {
+                    set: function(val) {
+                        originalValDesc.set.call(this, val);
+                        if (window.jQuery && $(this).hasClass('select2-hidden-accessible')) {
+                            $(this).trigger('change.select2');
+                        }
+                    },
+                    get: function() {
+                        return originalValDesc.get.call(this);
+                    }
+                });
+            }
+        })();
+
+        // 2. Main Select2 Initializer
+        window.initSelect2 = function(context) {
+            if (typeof jQuery === 'undefined' || typeof jQuery.fn.select2 === 'undefined') return;
+
+            var $targets = context ? $(context).find('select') : $('select');
+
+            $targets.each(function() {
+                var $select = $(this);
+
+                // Skip if marked to ignore or already initialized
+                if ($select.data('no-select2') !== undefined || $select.hasClass('select2-hidden-accessible')) {
+                    return;
+                }
+
+                // If element is explicitly or implicitly full width
+                var isFullWidth = $select.hasClass('w-full') || 
+                                  $select.closest('.grid, .space-y-2, .space-y-3, .space-y-4, .space-y-5, .space-y-6, [x-show]').length > 0;
+
+                var optionCount = $select.find('option').length;
+                var placeholderText = $select.find('option[value=""]').first().text() || 
+                                      $select.attr('placeholder') || 
+                                      '-- Pilih --';
+
+                $select.select2({
+                    width: isFullWidth ? '100%' : 'auto',
+                    placeholder: placeholderText,
+                    allowClear: $select.find('option[value=""]').length > 0 && !$select.prop('required'),
+                    minimumResultsForSearch: optionCount > 6 ? 0 : Infinity,
+                    dropdownParent: $(document.body)
+                });
+
+                // When user selects in Select2, propagate native change & input events for Alpine.js x-model & @change
+                $select.on('select2:select select2:unselect select2:clear', function(e) {
+                    this.dispatchEvent(new Event('change', { bubbles: true }));
+                    this.dispatchEvent(new Event('input', { bubbles: true }));
+                });
+            });
+        };
+
+        // 3. Document ready and dynamic observers
+        $(document).ready(function() {
+            window.initSelect2();
+
+            // Observe modal triggers and DOM mutations
+            var initTimeout = null;
+            function scheduleInit() {
+                clearTimeout(initTimeout);
+                initTimeout = setTimeout(function() {
+                    window.initSelect2();
+                    $('select.select2-hidden-accessible').each(function() {
+                        $(this).trigger('change.select2');
+                    });
+                }, 80);
+            }
+
+            $(document).on('click', 'button, a, [x-on\\:click], [@click]', scheduleInit);
+
+            var observer = new MutationObserver(function(mutations) {
+                var hasVisibleChange = false;
+                for (var i = 0; i < mutations.length; i++) {
+                    var m = mutations[i];
+                    if (m.type === 'attributes' && (m.attributeName === 'style' || m.attributeName === 'class')) {
+                        hasVisibleChange = true;
+                        break;
+                    } else if (m.addedNodes.length > 0) {
+                        hasVisibleChange = true;
+                        break;
+                    }
+                }
+                if (hasVisibleChange) {
+                    scheduleInit();
+                }
+            });
+
+            observer.observe(document.body, {
+                attributes: true,
+                childList: true,
+                subtree: true,
+                attributeFilter: ['style', 'class']
+            });
+        });
+    </script>
 
     @stack('scripts')
 </body>

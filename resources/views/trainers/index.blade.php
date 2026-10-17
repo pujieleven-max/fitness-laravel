@@ -297,7 +297,7 @@
 
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Status Aktif</label>
-                        <select name="is_active" x-model="trainerActive" class="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-emerald-500">
+                        <select name="is_active" x-model="trainerActive" class="select2 w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-emerald-500">
                             <option :value="true">Aktif</option>
                             <option :value="false">Nonaktif</option>
                         </select>
@@ -355,7 +355,7 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Instruktur / Trainer</label>
-                        <select name="trainer_id" class="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500">
+                        <select name="trainer_id" class="select2 w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500">
                             <option value="">-- Pilih Instruktur --</option>
                             @foreach($trainers as $tr)
                                 <option value="{{ $tr->id }}">{{ $tr->name }}</option>
@@ -365,7 +365,7 @@
 
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Hari Rutin</label>
-                        <select name="schedule_day" class="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500">
+                        <select name="schedule_day" class="select2 w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500">
                             <option value="Senin">Senin</option>
                             <option value="Selasa">Selasa</option>
                             <option value="Rabu">Rabu</option>

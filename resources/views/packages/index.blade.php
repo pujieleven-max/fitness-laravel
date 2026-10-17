@@ -77,7 +77,7 @@
             </div>
 
             <!-- Type Filter -->
-            <select name="type" class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700/80 text-white text-xs focus:outline-none focus:border-emerald-500">
+            <select name="type" class="select2 min-w-[160px] px-3 py-2 rounded-xl bg-slate-900 border border-slate-700/80 text-white text-xs focus:outline-none focus:border-emerald-500">
                 <option value="">Semua Tipe Paket</option>
                 <option value="daily" {{ request('type') === 'daily' ? 'selected' : '' }}>Harian (Daily Pass)</option>
                 <option value="monthly" {{ request('type') === 'monthly' ? 'selected' : '' }}>Bulanan (Monthly)</option>
@@ -86,7 +86,7 @@
             </select>
 
             <!-- Status Filter -->
-            <select name="status" class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700/80 text-white text-xs focus:outline-none focus:border-emerald-500">
+            <select name="status" class="select2 min-w-[160px] px-3 py-2 rounded-xl bg-slate-900 border border-slate-700/80 text-white text-xs focus:outline-none focus:border-emerald-500">
                 <option value="">Semua Status</option>
                 <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Aktif (Dijual di Kasir)</option>
                 <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Nonaktif (Disembunyikan)</option>
@@ -251,7 +251,7 @@
 
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Tipe Paket</label>
-                        <select name="type" @change="onAddTypeChange($event)" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-emerald-500">
+                        <select name="type" @change="onAddTypeChange($event)" class="select2 w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-emerald-500">
                             <option value="daily">Harian (Daily Pass)</option>
                             <option value="monthly">Bulanan (Monthly)</option>
                             <option value="annual">Tahunan (Annual VIP)</option>
@@ -339,7 +339,7 @@
 
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Tipe Paket</label>
-                        <select name="type" x-model="editType" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500">
+                        <select name="type" x-model="editType" class="select2 w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500">
                             <option value="daily">Harian (Daily Pass)</option>
                             <option value="monthly">Bulanan (Monthly)</option>
                             <option value="annual">Tahunan (Annual VIP)</option>

@@ -23,7 +23,7 @@
                 <!-- Category -->
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Kategori Suplemen</label>
-                    <select name="category_id" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-emerald-500">
+                    <select name="category_id" required class="select2 w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-emerald-500">
                         @foreach($categories as $cat)
                             <option value="{{ $cat->id }}" {{ old('category_id', $supplement->category_id) == $cat->id ? 'selected' : '' }}>
                                 {{ $cat->name }}

@@ -48,7 +48,7 @@
                        class="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-900 border border-slate-700/80 text-white text-xs placeholder-slate-500 focus:outline-none focus:border-emerald-500">
             </div>
 
-            <select name="membership_type" class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700/80 text-white text-xs focus:outline-none focus:border-emerald-500">
+            <select name="membership_type" class="select2 min-w-[160px] px-3 py-2 rounded-xl bg-slate-900 border border-slate-700/80 text-white text-xs focus:outline-none focus:border-emerald-500">
                 <option value="">Semua Paket</option>
                 <option value="monthly_bronze" {{ request('membership_type') === 'monthly_bronze' ? 'selected' : '' }}>Bronze (1 Bulan)</option>
                 <option value="monthly_silver" {{ request('membership_type') === 'monthly_silver' ? 'selected' : '' }}>Silver (3 Bulan)</option>
@@ -56,7 +56,7 @@
                 <option value="daily" {{ request('membership_type') === 'daily' ? 'selected' : '' }}>Daily Pass</option>
             </select>
 
-            <select name="status" class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700/80 text-white text-xs focus:outline-none focus:border-emerald-500">
+            <select name="status" class="select2 min-w-[160px] px-3 py-2 rounded-xl bg-slate-900 border border-slate-700/80 text-white text-xs focus:outline-none focus:border-emerald-500">
                 <option value="">Semua Status</option>
                 <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Aktif</option>
                 <option value="expired" {{ request('status') === 'expired' ? 'selected' : '' }}>Expired</option>
@@ -237,7 +237,7 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Jenis Kelamin</label>
-                        <select name="gender" class="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-emerald-500">
+                        <select name="gender" class="select2 w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-emerald-500">
                             <option value="male">Pria</option>
                             <option value="female">Wanita</option>
                         </select>
@@ -245,7 +245,7 @@
 
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Pilihan Paket Langganan</label>
-                        <select name="membership_type" class="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-emerald-500">
+                        <select name="membership_type" class="select2 w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-emerald-500">
                             <option value="monthly_bronze">Bronze 1 Bulan (30 Hari)</option>
                             <option value="monthly_silver">Silver 3 Bulan (90 Hari)</option>
                             <option value="annual_gold">Gold VIP 1 Tahun (365 Hari)</option>
@@ -321,7 +321,7 @@
 
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Status Akun</label>
-                        <select name="status" x-model="editStatus" class="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500">
+                        <select name="status" x-model="editStatus" class="select2 w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500">
                             <option value="active">Aktif</option>
                             <option value="expired">Expired</option>
                             <option value="inactive">Nonaktif</option>
@@ -332,7 +332,7 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Jenis Kelamin</label>
-                        <select name="gender" x-model="editGender" class="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500">
+                        <select name="gender" x-model="editGender" class="select2 w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500">
                             <option value="male">Pria</option>
                             <option value="female">Wanita</option>
                         </select>
@@ -340,7 +340,7 @@
 
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Paket</label>
-                        <select name="membership_type" x-model="editPlan" class="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500">
+                        <select name="membership_type" x-model="editPlan" class="select2 w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500">
                             <option value="monthly_bronze">Bronze 1 Bulan</option>
                             <option value="monthly_silver">Silver 3 Bulan</option>
                             <option value="annual_gold">Gold VIP 1 Tahun</option>

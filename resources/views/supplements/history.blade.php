@@ -14,7 +14,7 @@
             <!-- Supplement Picker -->
             <div>
                 <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Pilih Produk</label>
-                <select name="supplement_id" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-emerald-500">
+                <select name="supplement_id" class="select2 w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-emerald-500">
                     <option value="">Semua Suplemen</option>
                     @foreach($supplements as $s)
                         <option value="{{ $s->id }}" {{ request('supplement_id') == $s->id ? 'selected' : '' }}>
@@ -27,7 +27,7 @@
             <!-- Type -->
             <div>
                 <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Arah Mutasi</label>
-                <select name="type" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-emerald-500">
+                <select name="type" class="select2 w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-emerald-500">
                     <option value="">Semua Arah</option>
                     <option value="in" {{ request('type') === 'in' ? 'selected' : '' }}>Masuk (Inflow / Restock)</option>
                     <option value="out" {{ request('type') === 'out' ? 'selected' : '' }}>Keluar (Outflow / Penjualan)</option>
@@ -38,7 +38,7 @@
             <!-- Reference Type -->
             <div>
                 <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Jenis Aktivitas</label>
-                <select name="reference_type" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-emerald-500">
+                <select name="reference_type" class="select2 w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-emerald-500">
                     <option value="">Semua Aktivitas</option>
                     <option value="pos_sale" {{ request('reference_type') === 'pos_sale' ? 'selected' : '' }}>Penjualan Kasir POS</option>
                     <option value="restock" {{ request('reference_type') === 'restock' ? 'selected' : '' }}>Restock Supplier</option>

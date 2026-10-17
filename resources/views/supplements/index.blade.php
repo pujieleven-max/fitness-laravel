@@ -78,7 +78,7 @@
             </div>
 
             <!-- Category -->
-            <select name="category_id" class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700/80 text-white text-xs focus:outline-none focus:border-emerald-500">
+            <select name="category_id" class="select2 min-w-[160px] px-3 py-2 rounded-xl bg-slate-900 border border-slate-700/80 text-white text-xs focus:outline-none focus:border-emerald-500">
                 <option value="">Semua Kategori</option>
                 @foreach($categories as $cat)
                     <option value="{{ $cat->id }}" {{ request('category_id') == $cat->id ? 'selected' : '' }}>
@@ -88,7 +88,7 @@
             </select>
 
             <!-- Status Filter -->
-            <select name="status" class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700/80 text-white text-xs focus:outline-none focus:border-emerald-500">
+            <select name="status" class="select2 min-w-[160px] px-3 py-2 rounded-xl bg-slate-900 border border-slate-700/80 text-white text-xs focus:outline-none focus:border-emerald-500">
                 <option value="">Semua Status Stok</option>
                 <option value="in_stock" {{ request('status') === 'in_stock' ? 'selected' : '' }}>Stok Aman</option>
                 <option value="low_stock" {{ request('status') === 'low_stock' ? 'selected' : '' }}>Stok Menipis</option>
@@ -376,7 +376,7 @@
 
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Alasan Penyesuaian</label>
-                    <select name="reason" x-model="adjustReason" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500">
+                    <select name="reason" x-model="adjustReason" class="select2 w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500">
                         <option value="manual_audit">Selisih Hitung / Audit Fisik Berkala</option>
                         <option value="damage">Barang Rusak / Bocor / Cacat Pabrik</option>
                         <option value="expired">Barang Kadaluarsa / Expired</option>

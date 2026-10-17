@@ -200,7 +200,7 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Peran / Role</label>
-                        <select name="role" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-emerald-500">
+                        <select name="role" class="select2 w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-emerald-500">
                             <option value="kasir">Kasir Frontdesk</option>
                             <option value="owner">Owner (Admin)</option>
                         </select>
@@ -271,7 +271,7 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Peran / Role</label>
-                        <select name="role" x-model="editRole" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500">
+                        <select name="role" x-model="editRole" class="select2 w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500">
                             <option value="kasir">Kasir Frontdesk</option>
                             <option value="owner">Owner (Admin)</option>
                         </select>

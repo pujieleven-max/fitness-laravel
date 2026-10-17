@@ -15,14 +15,14 @@
             <div>
                 <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Tipe Layanan Booking</label>
                 <div class="grid grid-cols-2 gap-3 p-1.5 rounded-2xl bg-slate-900 border border-slate-800">
-                    <button type="button" @click="bookingType = 'personal_trainer'"
+                    <button type="button" @click="bookingType = 'personal_trainer'; $nextTick(() => { window.initSelect2(); $('select.select2-hidden-accessible').trigger('change.select2'); })"
                             :class="bookingType === 'personal_trainer' ? 'bg-gradient-to-r from-emerald-500 to-teal-400 text-slate-950 font-black shadow-lg shadow-emerald-500/20' : 'text-slate-400 hover:text-white'"
                             class="py-3 rounded-xl text-xs flex items-center justify-center gap-2 transition-all">
                         <i class="fa-solid fa-user-ninja"></i>
                         <span>Personal Trainer (1-on-1 Privat)</span>
                     </button>
 
-                    <button type="button" @click="bookingType = 'fitness_class'"
+                    <button type="button" @click="bookingType = 'fitness_class'; $nextTick(() => { window.initSelect2(); $('select.select2-hidden-accessible').trigger('change.select2'); })"
                             :class="bookingType === 'fitness_class' ? 'bg-gradient-to-r from-cyan-500 to-teal-400 text-slate-950 font-black shadow-lg shadow-cyan-500/20' : 'text-slate-400 hover:text-white'"
                             class="py-3 rounded-xl text-xs flex items-center justify-center gap-2 transition-all">
                         <i class="fa-solid fa-users"></i>
@@ -37,7 +37,7 @@
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Pilih Member (Opsional)</label>
                     <select name="member_id" x-model="selectedMemberId" @change="onMemberChange()"
-                            class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-emerald-500">
+                            class="select2 w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-emerald-500">
                         <option value="">-- Tamu Walk-In (Bukan Member) --</option>
                         @foreach($members as $m)
                             <option value="{{ $m->id }}">{{ $m->member_code }} - {{ $m->name }}</option>
@@ -62,7 +62,7 @@
             <div x-show="bookingType === 'personal_trainer'">
                 <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Pilih Personal Trainer (Coach)</label>
                 <select name="trainer_id" x-model="selectedTrainerId" @change="onTrainerChange()"
-                        class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-emerald-500">
+                        class="select2 w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-emerald-500">
                     <option value="">-- Pilih Coach Trainer --</option>
                     @foreach($trainers as $t)
                         <option value="{{ $t->id }}">
@@ -75,7 +75,7 @@
             <div x-show="bookingType === 'fitness_class'">
                 <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Pilih Kelas Fitness Studio</label>
                 <select name="fitness_class_id" x-model="selectedClassId" @change="onClassChange()"
-                        class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-cyan-500">
+                        class="select2 w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-cyan-500">
                     <option value="">-- Pilih Kelas Studio --</option>
                     @foreach($fitnessClasses as $fc)
                         <option value="{{ $fc->id }}">
@@ -117,7 +117,7 @@
                 <!-- Payment Status -->
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Status Pembayaran</label>
-                    <select name="payment_status" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-emerald-500">
+                    <select name="payment_status" required class="select2 w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-emerald-500">
                         <option value="unpaid">Belum Lunas (Bayar di Kasir POS)</option>
                         <option value="paid">Lunas (Sudah Dibayar)</option>
                     </select>

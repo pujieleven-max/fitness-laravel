@@ -225,7 +225,7 @@
                         class="py-1.5 rounded-lg transition-all text-center">
                     Tamu Walk-in
                 </button>
-                <button @click="customerType = 'member'" 
+                <button @click="customerType = 'member'; $nextTick(() => { window.initSelect2(); $('select.select2-hidden-accessible').trigger('change.select2'); })" 
                         :class="customerType === 'member' ? 'bg-emerald-500 text-slate-950 shadow-sm' : 'text-slate-400 hover:text-white'"
                         class="py-1.5 rounded-lg transition-all text-center">
                     Member Terdaftar
@@ -240,8 +240,8 @@
 
             <div x-show="customerType === 'member'">
                 <select x-model="selectedMemberId" @change="onMemberSelected()"
-                        class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700/80 text-white text-xs focus:outline-none focus:border-emerald-500">
-                    <option value="">-- Pilih Member Gym --</option>
+                        class="select2 w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700/80 text-white text-xs focus:outline-none focus:border-emerald-500">
+                    <option value="">-- Cari / Pilih Member Gym --</option>
                     @foreach($members as $m)
                         <option value="{{ $m->id }}" data-name="{{ $m->name }} ({{ $m->member_code }})">
                             {{ $m->member_code }} - {{ $m->name }} ({{ strtoupper($m->membership_type) }})
