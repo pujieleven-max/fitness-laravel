@@ -5,11 +5,18 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PosController;
+use App\Http\Controllers\PublicController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SupplementController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+
+// Public Promotional Frontend & Online Services
+Route::get('/', [PublicController::class, 'index'])->name('landing');
+Route::get('/promo', [PublicController::class, 'index'])->name('promo');
+Route::get('/public/check-status', [PublicController::class, 'checkStatus'])->name('public.checkStatus');
+Route::post('/public/booking', [PublicController::class, 'storeBooking'])->name('public.booking.store');
 
 // Guest Authentication Routes
 Route::middleware('guest')->group(function () {
@@ -21,7 +28,6 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::get('/', [DashboardController::class, 'index']);
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // POS Routes

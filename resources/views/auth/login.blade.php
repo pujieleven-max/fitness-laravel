@@ -236,6 +236,13 @@
 
         <!-- Right Quick Actions (Live Status & Theme Toggle) -->
         <div class="flex items-center gap-2.5 sm:gap-3">
+            <!-- Link to Public Landing Page -->
+            <a href="{{ route('landing') }}"
+               class="px-3 py-2 rounded-2xl border border-white/[0.08] bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-bold flex items-center gap-2 transition-all shadow-md">
+                <i class="fa-solid fa-globe text-emerald-400 text-xs"></i>
+                <span class="hidden sm:inline font-display text-[11px]">Lihat Website Gym</span>
+            </a>
+
             <!-- System Status -->
             <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>

@@ -724,13 +724,36 @@
         html:not(.dark) .select2-results__options::-webkit-scrollbar-thumb {
             background: #cbd5e1;
         }
+
+        /* Theme-aware active sidebar item */
+        .sidebar-link-active {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.16) 0%, rgba(20, 184, 166, 0.05) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.32);
+            color: var(--primary-accent) !important;
+            box-shadow: 0 4px 15px -4px var(--primary-glow);
+        }
+        html:not(.dark) .sidebar-link-active {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.12) 0%, rgba(20, 184, 166, 0.04) 100%) !important;
+            border-color: var(--primary-accent) !important;
+            color: var(--primary-hover) !important;
+        }
+        [x-cloak] { display: none !important; }
     </style>
     @stack('styles')
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-[#060911] dark:text-slate-100 min-h-screen flex flex-col antialiased transition-colors duration-200" 
       x-data="{ 
           sidebarOpen: false,
+          sidebarCollapsed: localStorage.getItem('sidebarCollapsed') === 'true',
+          cmdOpen: false,
+          cmdSearch: '',
+          notifOpen: false,
+          quickAddOpen: false,
           darkMode: document.documentElement.classList.contains('dark'),
+          toggleSidebarCollapse() {
+              this.sidebarCollapsed = !this.sidebarCollapsed;
+              localStorage.setItem('sidebarCollapsed', this.sidebarCollapsed);
+          },
           toggleTheme() {
               this.darkMode = !this.darkMode;
               if (this.darkMode) {
@@ -740,8 +763,36 @@
                   document.documentElement.classList.remove('dark');
                   localStorage.setItem('theme', 'light');
               }
+          },
+          cmdItems: [
+              { title: 'Terminal Kasir POS', desc: 'Transaksi penjualan suplemen, tiket & paket', icon: 'fa-cash-register', color: 'text-emerald-400', url: '{{ route('pos.index') }}', badge: 'POS' },
+              { title: 'Dashboard Utama', desc: 'Ringkasan metrik operasional & analisis bisnis', icon: 'fa-gauge-high', color: 'text-cyan-400', url: '{{ route('dashboard') }}', badge: 'Utama' },
+              { title: 'Buat Booking PT / Kelas', desc: 'Jadwalkan sesi Personal Trainer atau Kelas Studio', icon: 'fa-calendar-plus', color: 'text-cyan-400', url: '{{ route('bookings.create') }}', badge: 'Aksi' },
+              { title: 'Daftar Booking PT & Kelas', desc: 'Kelola konfirmasi & check-in kehadiran sesi', icon: 'fa-calendar-check', color: 'text-cyan-400', url: '{{ route('bookings.index') }}', badge: 'Jadwal' },
+              { title: 'Kalender Jadwal Mingguan', desc: 'Matriks jadwal mingguan trainer & studio', icon: 'fa-calendar-days', color: 'text-violet-400', url: '{{ route('bookings.calendar') }}', badge: 'Kalender' },
+              { title: 'Katalog Suplemen & Stok', desc: 'Kelola stok produk, harga modal, & restock', icon: 'fa-bottle-droplet', color: 'text-emerald-400', url: '{{ route('supplements.index') }}', badge: 'Inventori' },
+              { title: 'Tambah Produk Suplemen Baru', desc: 'Input SKU suplemen baru ke inventori', icon: 'fa-plus', color: 'text-emerald-400', url: '{{ route('supplements.create') }}', badge: 'Aksi' },
+              { title: 'Mutasi & Riwayat Stok', desc: 'Log keluar masuk barang & penyesuaian stok', icon: 'fa-clock-rotate-left', color: 'text-amber-400', url: '{{ route('supplements.history') }}', badge: 'Audit' },
+              { title: 'Member & Langganan', desc: 'Data member aktif, perpanjangan & riwayat', icon: 'fa-id-card-clip', color: 'text-purple-400', url: '{{ route('members.index') }}', badge: 'CRM' },
+              { title: 'Tiket Masuk & Paket Gym', desc: 'Atur harga Daily Pass & paket bulanan', icon: 'fa-ticket', color: 'text-amber-400', url: '{{ route('packages.index') }}', badge: 'Paket' },
+              { title: 'Trainer & Kelas Studio', desc: 'Kelola instruktur PT dan jadwal kelas grup', icon: 'fa-person-running', color: 'text-rose-400', url: '{{ route('trainers.index') }}', badge: 'SDM' },
+              { title: 'Riwayat Transaksi Kasir', desc: 'Daftar struk penjualan & cetak ulang struk', icon: 'fa-receipt', color: 'text-slate-300', url: '{{ route('pos.orders') }}', badge: 'Kasir' },
+              @if(Auth::user()->isOwner())
+              { title: 'Laporan Laba & Keuangan', desc: 'Analisis profitabilitas, margin, & metode bayar', icon: 'fa-chart-line', color: 'text-amber-400', url: '{{ route('reports.index') }}', badge: 'Owner' },
+              { title: 'Kelola Kasir & Owner', desc: 'Manajemen akun staf kasir & hak akses', icon: 'fa-users-gear', color: 'text-amber-400', url: '{{ route('users.index') }}', badge: 'Owner' },
+              { title: 'Pengaturan Aplikasi & Tema', desc: 'Ubah identitas gym, logo, & warna aksen tema', icon: 'fa-sliders', color: 'text-amber-400', url: '{{ route('settings.index') }}', badge: 'Owner' },
+              @endif
+              { title: 'Website Promosi Publik', desc: 'Buka landing page promosi gym di tab baru', icon: 'fa-globe', color: 'text-cyan-400', url: '{{ route('landing') }}', badge: 'Publik' }
+          ],
+          get filteredCmdItems() {
+              if (!this.cmdSearch.trim()) return this.cmdItems;
+              const q = this.cmdSearch.toLowerCase();
+              return this.cmdItems.filter(i => i.title.toLowerCase().includes(q) || i.desc.toLowerCase().includes(q) || i.badge.toLowerCase().includes(q));
           }
-      }">
+      }"
+      @keydown.window.ctrl.k.prevent="cmdOpen = !cmdOpen; if(cmdOpen) $nextTick(() => $refs.cmdInput.focus())"
+      @keydown.window.meta.k.prevent="cmdOpen = !cmdOpen; if(cmdOpen) $nextTick(() => $refs.cmdInput.focus())"
+      @keydown.window.escape="cmdOpen = false; notifOpen = false; quickAddOpen = false">
 
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar Backdrop for mobile -->
@@ -755,21 +806,25 @@
              class="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden" style="display: none;"></div>
 
         <!-- Sidebar -->
-        <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
-               class="fixed inset-y-0 left-0 z-50 w-72 bg-[#0B0F19] border-r border-slate-800/80 flex flex-col transition-transform duration-300 ease-in-out lg:static lg:translate-x-0">
+        <aside :class="[
+                   sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
+                   sidebarCollapsed ? 'lg:w-20' : 'lg:w-72'
+               ]"
+               class="fixed inset-y-0 left-0 z-50 w-72 bg-[#0B0F19] border-r border-slate-800/80 flex flex-col transition-all duration-300 ease-in-out lg:static shrink-0">
             
             <!-- Logo Header -->
-            <div class="h-20 flex items-center justify-between px-6 border-b border-slate-800/80 bg-[#0B0F19]">
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 group min-w-0">
+            <div class="h-20 flex items-center justify-between px-4 border-b border-slate-800/80 bg-[#0B0F19]"
+                 :class="sidebarCollapsed ? 'lg:justify-center lg:px-2' : 'px-6'">
+                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 group min-w-0" :title="'{{ $appSetting->app_name ?? 'FITZONE GYM' }}'">
                     @if(!empty($appSetting->logo_url))
                         <img src="{{ $appSetting->logo_url }}" alt="Logo" class="w-11 h-11 rounded-xl object-contain bg-slate-900 border border-emerald-500/30 shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform shrink-0 p-1">
                     @else
-                        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white shadow-lg shadow-emerald-500/30 group-hover:scale-105 transition-transform shrink-0">
+                        <div class="w-11 h-11 rounded-xl flex items-center justify-center text-slate-950 shadow-lg group-hover:scale-105 transition-transform shrink-0 btn-theme-primary">
                             <i class="fa-solid fa-dumbbell text-xl"></i>
                         </div>
                     @endif
-                    <div class="min-w-0">
-                        <div class="font-extrabold text-base tracking-tight text-white flex items-center gap-1.5 truncate">
+                    <div class="min-w-0 transition-opacity duration-200" :class="sidebarCollapsed ? 'lg:hidden' : ''">
+                        <div class="font-extrabold text-base tracking-tight text-white flex items-center gap-1.5 truncate font-display">
                             {{ $appSetting->app_name ?? 'FITZONE GYM' }}
                         </div>
                         <p class="text-[11px] text-slate-400 font-medium truncate">{{ $appSetting->app_tagline ?? 'POS & Fitness Management' }}</p>
@@ -781,123 +836,190 @@
             </div>
 
             <!-- Navigation Links -->
-            <div class="flex-1 overflow-y-auto px-4 py-5 space-y-1.5">
+            <div class="flex-1 overflow-y-auto px-3 py-4 space-y-1">
                 
-                <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 pb-2 pt-1">
+                <div class="text-[10px] font-extrabold uppercase tracking-widest text-slate-500 px-3 pb-1.5 pt-1"
+                     :class="sidebarCollapsed ? 'lg:hidden' : ''">
                     Utama
                 </div>
 
-                <a href="{{ route('dashboard') }}" 
-                   class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('dashboard') ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/10 text-emerald-400 border border-emerald-500/30 font-bold shadow-sm' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
-                    <i class="fa-solid fa-gauge-high w-5 text-center {{ request()->routeIs('dashboard') ? 'text-emerald-400' : 'text-slate-400' }}"></i>
-                    <span>Dashboard</span>
+                <a href="{{ route('dashboard') }}" title="Dashboard"
+                   :class="sidebarCollapsed ? 'lg:justify-center lg:px-0' : 'px-3.5'"
+                   class="flex items-center justify-between py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('dashboard') ? 'sidebar-link-active font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-gauge-high w-5 text-center {{ request()->routeIs('dashboard') ? '' : 'text-slate-400' }}"
+                           style="{{ request()->routeIs('dashboard') ? 'color: var(--primary-accent)' : '' }}"></i>
+                        <span :class="sidebarCollapsed ? 'lg:hidden' : ''">Dashboard</span>
+                    </div>
+                    @if(($navCounts['total_alerts'] ?? 0) > 0)
+                        <span :class="sidebarCollapsed ? 'lg:hidden' : ''" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse" title="{{ $navCounts['total_alerts'] }} Peringatan Operasional"></span>
+                    @endif
                 </a>
 
-                <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 pb-2 pt-4">
+                <a href="{{ route('landing') }}" target="_blank" title="Website Promosi Publik"
+                   :class="sidebarCollapsed ? 'lg:justify-center lg:px-0' : 'px-3.5'"
+                   class="flex items-center justify-between py-2.5 rounded-xl text-sm font-semibold transition-all text-slate-300 hover:text-white hover:bg-slate-800/60 group">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-globe w-5 text-center text-cyan-400 group-hover:scale-110 transition-transform"></i>
+                        <span :class="sidebarCollapsed ? 'lg:hidden' : ''">Website Promosi Publik</span>
+                    </div>
+                    <i :class="sidebarCollapsed ? 'lg:hidden' : ''" class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-500 group-hover:text-cyan-400"></i>
+                </a>
+
+                <div class="text-[10px] font-extrabold uppercase tracking-widest text-slate-500 px-3 pb-1.5 pt-4"
+                     :class="sidebarCollapsed ? 'lg:hidden' : ''">
                     Kasir & Penjualan
                 </div>
+                <div :class="sidebarCollapsed ? 'lg:block hidden border-t border-slate-800/80 my-2' : 'hidden'"></div>
 
-                <a href="{{ route('pos.index') }}" 
-                   class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('pos.index') ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/10 text-emerald-400 border border-emerald-500/30 font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
+                <a href="{{ route('pos.index') }}" title="Terminal Kasir POS"
+                   :class="sidebarCollapsed ? 'lg:justify-center lg:px-0' : 'px-3.5'"
+                   class="flex items-center justify-between py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('pos.index') ? 'sidebar-link-active font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
                     <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-cash-register w-5 text-center {{ request()->routeIs('pos.index') ? 'text-emerald-400' : 'text-slate-400' }}"></i>
-                        <span>Terminal Kasir POS</span>
+                        <i class="fa-solid fa-cash-register w-5 text-center {{ request()->routeIs('pos.index') ? '' : 'text-emerald-400' }}"
+                           style="{{ request()->routeIs('pos.index') ? 'color: var(--primary-accent)' : '' }}"></i>
+                        <span :class="sidebarCollapsed ? 'lg:hidden' : ''">Terminal Kasir POS</span>
                     </div>
-                    <span class="px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wide bg-emerald-500 text-slate-950 rounded-full shadow-sm">Kasir</span>
+                    <span :class="sidebarCollapsed ? 'lg:hidden' : ''" class="px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wide text-slate-950 rounded-full shadow-sm btn-theme-primary">POS</span>
                 </a>
 
-                <a href="{{ route('pos.orders') }}" 
-                   class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('pos.orders*') ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/10 text-emerald-400 border border-emerald-500/30 font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
-                    <i class="fa-solid fa-receipt w-5 text-center {{ request()->routeIs('pos.orders*') ? 'text-emerald-400' : 'text-slate-400' }}"></i>
-                    <span>Riwayat Transaksi</span>
+                <a href="{{ route('pos.orders') }}" title="Riwayat Transaksi"
+                   :class="sidebarCollapsed ? 'lg:justify-center lg:px-0' : 'px-3.5'"
+                   class="flex items-center gap-3 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('pos.orders*') ? 'sidebar-link-active font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
+                    <i class="fa-solid fa-receipt w-5 text-center {{ request()->routeIs('pos.orders*') ? '' : 'text-slate-400' }}"
+                       style="{{ request()->routeIs('pos.orders*') ? 'color: var(--primary-accent)' : '' }}"></i>
+                    <span :class="sidebarCollapsed ? 'lg:hidden' : ''">Riwayat Transaksi</span>
                 </a>
 
-                <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 pb-2 pt-4">
+                <div class="text-[10px] font-extrabold uppercase tracking-widest text-slate-500 px-3 pb-1.5 pt-4"
+                     :class="sidebarCollapsed ? 'lg:hidden' : ''">
                     Suplemen & Inventori
                 </div>
+                <div :class="sidebarCollapsed ? 'lg:block hidden border-t border-slate-800/80 my-2' : 'hidden'"></div>
 
-                <a href="{{ route('supplements.index') }}" 
-                   class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('supplements.index', 'supplements.create', 'supplements.edit') ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/10 text-emerald-400 border border-emerald-500/30 font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
+                <a href="{{ route('supplements.index') }}" title="Katalog Suplemen & Stok"
+                   :class="sidebarCollapsed ? 'lg:justify-center lg:px-0' : 'px-3.5'"
+                   class="flex items-center justify-between py-2.5 rounded-xl text-sm font-semibold transition-all relative {{ request()->routeIs('supplements.index', 'supplements.create', 'supplements.edit') ? 'sidebar-link-active font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
                     <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-bottle-droplet w-5 text-center {{ request()->routeIs('supplements.index*') ? 'text-emerald-400' : 'text-slate-400' }}"></i>
-                        <span>Katalog Suplemen & Stok</span>
+                        <i class="fa-solid fa-bottle-droplet w-5 text-center {{ request()->routeIs('supplements.index*') ? '' : 'text-slate-400' }}"
+                           style="{{ request()->routeIs('supplements.index*') ? 'color: var(--primary-accent)' : '' }}"></i>
+                        <span :class="sidebarCollapsed ? 'lg:hidden' : ''">Katalog Suplemen & Stok</span>
                     </div>
+                    @if(($navCounts['low_stock'] ?? 0) > 0)
+                        <span :class="sidebarCollapsed ? 'lg:hidden' : ''" class="px-1.5 py-0.5 text-[10px] font-mono font-bold rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30" title="{{ $navCounts['low_stock'] }} stok menipis">
+                            {{ $navCounts['low_stock'] }}
+                        </span>
+                    @endif
                 </a>
 
-                <a href="{{ route('supplements.history') }}" 
-                   class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('supplements.history') ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/10 text-emerald-400 border border-emerald-500/30 font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
-                    <i class="fa-solid fa-clock-rotate-left w-5 text-center {{ request()->routeIs('supplements.history') ? 'text-emerald-400' : 'text-slate-400' }}"></i>
-                    <span>Mutasi & Riwayat Stok</span>
+                <a href="{{ route('supplements.history') }}" title="Mutasi & Riwayat Stok"
+                   :class="sidebarCollapsed ? 'lg:justify-center lg:px-0' : 'px-3.5'"
+                   class="flex items-center gap-3 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('supplements.history') ? 'sidebar-link-active font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
+                    <i class="fa-solid fa-clock-rotate-left w-5 text-center {{ request()->routeIs('supplements.history') ? '' : 'text-slate-400' }}"
+                       style="{{ request()->routeIs('supplements.history') ? 'color: var(--primary-accent)' : '' }}"></i>
+                    <span :class="sidebarCollapsed ? 'lg:hidden' : ''">Mutasi & Riwayat Stok</span>
                 </a>
 
-                <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 pb-2 pt-4">
+                <div class="text-[10px] font-extrabold uppercase tracking-widest text-slate-500 px-3 pb-1.5 pt-4"
+                     :class="sidebarCollapsed ? 'lg:hidden' : ''">
                     Layanan Gym & Booking
                 </div>
+                <div :class="sidebarCollapsed ? 'lg:block hidden border-t border-slate-800/80 my-2' : 'hidden'"></div>
 
-                <a href="{{ route('bookings.index') }}" 
-                   class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('bookings.index', 'bookings.create') ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/10 text-emerald-400 border border-emerald-500/30 font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
-                    <i class="fa-solid fa-calendar-check w-5 text-center {{ request()->routeIs('bookings.index*') ? 'text-emerald-400' : 'text-slate-400' }}"></i>
-                    <span>Daftar Booking PT & Kelas</span>
+                <a href="{{ route('bookings.index') }}" title="Daftar Booking PT & Kelas"
+                   :class="sidebarCollapsed ? 'lg:justify-center lg:px-0' : 'px-3.5'"
+                   class="flex items-center justify-between py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('bookings.index', 'bookings.create') ? 'sidebar-link-active font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-calendar-check w-5 text-center {{ request()->routeIs('bookings.index', 'bookings.create') ? '' : 'text-slate-400' }}"
+                           style="{{ request()->routeIs('bookings.index', 'bookings.create') ? 'color: var(--primary-accent)' : '' }}"></i>
+                        <span :class="sidebarCollapsed ? 'lg:hidden' : ''">Daftar Booking PT & Kelas</span>
+                    </div>
+                    @if(($navCounts['today_bookings'] ?? 0) > 0)
+                        <span :class="sidebarCollapsed ? 'lg:hidden' : ''" class="px-1.5 py-0.5 text-[10px] font-mono font-bold rounded-md bg-cyan-500/20 text-cyan-300 border border-cyan-500/30" title="{{ $navCounts['today_bookings'] }} jadwal aktif hari ini">
+                            {{ $navCounts['today_bookings'] }}
+                        </span>
+                    @endif
                 </a>
 
-                <a href="{{ route('bookings.calendar') }}" 
-                   class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('bookings.calendar') ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/10 text-emerald-400 border border-emerald-500/30 font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
-                    <i class="fa-solid fa-calendar-days w-5 text-center {{ request()->routeIs('bookings.calendar') ? 'text-emerald-400' : 'text-slate-400' }}"></i>
-                    <span>Jadwal Mingguan (Kalender)</span>
+                <a href="{{ route('bookings.calendar') }}" title="Jadwal Mingguan (Kalender)"
+                   :class="sidebarCollapsed ? 'lg:justify-center lg:px-0' : 'px-3.5'"
+                   class="flex items-center gap-3 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('bookings.calendar') ? 'sidebar-link-active font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
+                    <i class="fa-solid fa-calendar-days w-5 text-center {{ request()->routeIs('bookings.calendar') ? '' : 'text-slate-400' }}"
+                       style="{{ request()->routeIs('bookings.calendar') ? 'color: var(--primary-accent)' : '' }}"></i>
+                    <span :class="sidebarCollapsed ? 'lg:hidden' : ''">Jadwal Mingguan (Kalender)</span>
                 </a>
 
-                <a href="{{ route('packages.index') }}" 
-                   class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('packages.index*') ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/10 text-emerald-400 border border-emerald-500/30 font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
-                    <i class="fa-solid fa-ticket w-5 text-center {{ request()->routeIs('packages.index*') ? 'text-emerald-400' : 'text-slate-400' }}"></i>
-                    <span>Tiket Masuk & Paket Gym</span>
+                <a href="{{ route('packages.index') }}" title="Tiket Masuk & Paket Gym"
+                   :class="sidebarCollapsed ? 'lg:justify-center lg:px-0' : 'px-3.5'"
+                   class="flex items-center gap-3 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('packages.index*') ? 'sidebar-link-active font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
+                    <i class="fa-solid fa-ticket w-5 text-center {{ request()->routeIs('packages.index*') ? '' : 'text-slate-400' }}"
+                       style="{{ request()->routeIs('packages.index*') ? 'color: var(--primary-accent)' : '' }}"></i>
+                    <span :class="sidebarCollapsed ? 'lg:hidden' : ''">Tiket Masuk & Paket Gym</span>
                 </a>
 
-                <a href="{{ route('members.index') }}" 
-                   class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('members.index*') ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/10 text-emerald-400 border border-emerald-500/30 font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
-                    <i class="fa-solid fa-id-card-clip w-5 text-center {{ request()->routeIs('members.index*') ? 'text-emerald-400' : 'text-slate-400' }}"></i>
-                    <span>Member & Langganan</span>
+                <a href="{{ route('members.index') }}" title="Member & Langganan"
+                   :class="sidebarCollapsed ? 'lg:justify-center lg:px-0' : 'px-3.5'"
+                   class="flex items-center justify-between py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('members.index*') ? 'sidebar-link-active font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-id-card-clip w-5 text-center {{ request()->routeIs('members.index*') ? '' : 'text-slate-400' }}"
+                           style="{{ request()->routeIs('members.index*') ? 'color: var(--primary-accent)' : '' }}"></i>
+                        <span :class="sidebarCollapsed ? 'lg:hidden' : ''">Member & Langganan</span>
+                    </div>
+                    @if(($navCounts['expiring_members'] ?? 0) > 0)
+                        <span :class="sidebarCollapsed ? 'lg:hidden' : ''" class="px-1.5 py-0.5 text-[10px] font-mono font-bold rounded-md bg-rose-500/20 text-rose-300 border border-rose-500/30" title="{{ $navCounts['expiring_members'] }} member hampir habis masa aktif">
+                            {{ $navCounts['expiring_members'] }}
+                        </span>
+                    @endif
                 </a>
 
-                <a href="{{ route('trainers.index') }}" 
-                   class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('trainers.index*') ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/10 text-emerald-400 border border-emerald-500/30 font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
-                    <i class="fa-solid fa-person-running w-5 text-center {{ request()->routeIs('trainers.index*') ? 'text-emerald-400' : 'text-slate-400' }}"></i>
-                    <span>Trainer & Kelas Studio</span>
+                <a href="{{ route('trainers.index') }}" title="Trainer & Kelas Studio"
+                   :class="sidebarCollapsed ? 'lg:justify-center lg:px-0' : 'px-3.5'"
+                   class="flex items-center gap-3 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('trainers.index*') ? 'sidebar-link-active font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
+                    <i class="fa-solid fa-person-running w-5 text-center {{ request()->routeIs('trainers.index*') ? '' : 'text-slate-400' }}"
+                       style="{{ request()->routeIs('trainers.index*') ? 'color: var(--primary-accent)' : '' }}"></i>
+                    <span :class="sidebarCollapsed ? 'lg:hidden' : ''">Trainer & Kelas Studio</span>
                 </a>
 
                 @if(Auth::user()->isOwner())
-                    <div class="text-[11px] font-bold uppercase tracking-wider text-amber-400 px-3 pb-2 pt-4 flex items-center justify-between">
+                    <div class="text-[10px] font-extrabold uppercase tracking-widest text-amber-400 px-3 pb-1.5 pt-4 flex items-center justify-between"
+                         :class="sidebarCollapsed ? 'lg:hidden' : ''">
                         <span>Owner & Finansial</span>
                         <i class="fa-solid fa-crown text-xs"></i>
                     </div>
+                    <div :class="sidebarCollapsed ? 'lg:block hidden border-t border-amber-500/30 my-2' : 'hidden'"></div>
 
-                    <a href="{{ route('reports.index') }}" 
-                       class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('reports.index*') ? 'bg-gradient-to-r from-amber-500/20 to-orange-500/10 text-amber-400 border border-amber-500/30 font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
+                    <a href="{{ route('reports.index') }}" title="Laporan Laba & Keuangan"
+                       :class="sidebarCollapsed ? 'lg:justify-center lg:px-0' : 'px-3.5'"
+                       class="flex items-center gap-3 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('reports.index*') ? 'bg-gradient-to-r from-amber-500/20 to-orange-500/10 text-amber-400 border border-amber-500/30 font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
                         <i class="fa-solid fa-chart-line w-5 text-center {{ request()->routeIs('reports.index*') ? 'text-amber-400' : 'text-slate-400' }}"></i>
-                        <span>Laporan Laba & Keuangan</span>
+                        <span :class="sidebarCollapsed ? 'lg:hidden' : ''">Laporan Laba & Keuangan</span>
                     </a>
 
-                    <a href="{{ route('users.index') }}" 
-                       class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('users.index*') ? 'bg-gradient-to-r from-amber-500/20 to-orange-500/10 text-amber-400 border border-amber-500/30 font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
+                    <a href="{{ route('users.index') }}" title="Kelola Kasir & Owner"
+                       :class="sidebarCollapsed ? 'lg:justify-center lg:px-0' : 'px-3.5'"
+                       class="flex items-center gap-3 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('users.index*') ? 'bg-gradient-to-r from-amber-500/20 to-orange-500/10 text-amber-400 border border-amber-500/30 font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
                         <i class="fa-solid fa-users-gear w-5 text-center {{ request()->routeIs('users.index*') ? 'text-amber-400' : 'text-slate-400' }}"></i>
-                        <span>Kelola Kasir & Owner</span>
+                        <span :class="sidebarCollapsed ? 'lg:hidden' : ''">Kelola Kasir & Owner</span>
                     </a>
 
-                    <a href="{{ route('settings.index') }}" 
-                       class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('settings.index*') ? 'bg-gradient-to-r from-amber-500/20 to-orange-500/10 text-amber-400 border border-amber-500/30 font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
+                    <a href="{{ route('settings.index') }}" title="Pengaturan Aplikasi"
+                       :class="sidebarCollapsed ? 'lg:justify-center lg:px-0' : 'px-3.5'"
+                       class="flex items-center gap-3 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('settings.index*') ? 'bg-gradient-to-r from-amber-500/20 to-orange-500/10 text-amber-400 border border-amber-500/30 font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
                         <i class="fa-solid fa-sliders w-5 text-center {{ request()->routeIs('settings.index*') ? 'text-amber-400' : 'text-slate-400' }}"></i>
-                        <span>Pengaturan Aplikasi</span>
+                        <span :class="sidebarCollapsed ? 'lg:hidden' : ''">Pengaturan Aplikasi</span>
                     </a>
                 @endif
             </div>
 
             <!-- User Footer Profile -->
-            <div class="p-4 border-t border-slate-800/80 bg-[#0B0F19]">
-                <div class="flex items-center justify-between p-2 rounded-xl bg-slate-900/80 border border-slate-800">
+            <div class="p-3 border-t border-slate-800/80 bg-[#0B0F19]">
+                <div class="flex items-center justify-between p-2 rounded-xl bg-slate-900/80 border border-slate-800"
+                     :class="sidebarCollapsed ? 'lg:flex-col lg:gap-2' : ''">
                     <div class="flex items-center gap-3 min-w-0">
-                        <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white shadow-md {{ Auth::user()->isOwner() ? 'bg-gradient-to-tr from-amber-600 to-yellow-400 ring-2 ring-amber-500/30' : 'bg-gradient-to-tr from-emerald-600 to-teal-400 ring-2 ring-emerald-500/30' }}">
+                        <div class="w-9 h-9 rounded-full flex items-center justify-center font-bold text-white shadow-md shrink-0 {{ Auth::user()->isOwner() ? 'bg-gradient-to-tr from-amber-600 to-yellow-400 ring-2 ring-amber-500/30' : 'bg-gradient-to-tr from-emerald-600 to-teal-400 ring-2 ring-emerald-500/30' }}">
                             {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                         </div>
-                        <div class="min-w-0">
+                        <div class="min-w-0" :class="sidebarCollapsed ? 'lg:hidden' : ''">
                             <h4 class="text-xs font-bold text-white truncate">{{ Auth::user()->name }}</h4>
                             <div class="flex items-center gap-1.5 mt-0.5">
                                 @if(Auth::user()->isOwner())
@@ -914,12 +1036,7 @@
                         </div>
                     </div>
                     
-                    <div class="flex items-center gap-1.5">
-                        <button @click="toggleTheme()" type="button" :title="darkMode ? 'Beralih ke Mode Terang' : 'Beralih ke Mode Gelap'"
-                                class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors">
-                            <i :class="darkMode ? 'fa-solid fa-sun text-amber-400' : 'fa-solid fa-moon text-cyan-500'" class="text-xs"></i>
-                        </button>
-
+                    <div class="flex items-center gap-1">
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" title="Logout" 
@@ -936,48 +1053,154 @@
         <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#060911] ambient-mesh relative">
             
             <!-- Top Navbar Glass -->
-            <header class="h-20 bg-[#0B0F19]/80 backdrop-blur-xl border-b border-white/[0.06] px-6 flex items-center justify-between z-30 sticky top-0 shadow-lg shadow-black/20">
-                <div class="flex items-center gap-4">
-                    <button @click="sidebarOpen = true" class="lg:hidden text-slate-300 hover:text-white p-2.5 rounded-xl bg-slate-900 border border-slate-800 transition-colors">
-                        <i class="fa-solid fa-bars text-lg"></i>
+            <header class="h-20 bg-[#0B0F19]/80 backdrop-blur-xl border-b border-white/[0.06] px-4 sm:px-6 flex items-center justify-between z-30 sticky top-0 shadow-lg shadow-black/20 gap-3">
+                <div class="flex items-center gap-3 min-w-0">
+                    <!-- Mobile Sidebar Trigger -->
+                    <button @click="sidebarOpen = true" class="lg:hidden text-slate-300 hover:text-white p-2.5 rounded-xl bg-slate-900 border border-slate-800 transition-colors shrink-0">
+                        <i class="fa-solid fa-bars text-base"></i>
                     </button>
-                    <div>
-                        <h1 class="text-lg sm:text-xl font-extrabold text-white tracking-tight font-display">@yield('page-title', 'Dashboard')</h1>
-                        <p class="text-xs text-slate-400">@yield('page-subtitle', 'Sistem Manajemen Fitness, Suplemen & POS')</p>
+                    <!-- Desktop Sidebar Collapse Toggle -->
+                    <button @click="toggleSidebarCollapse()" 
+                            :title="sidebarCollapsed ? 'Perluas Sidebar' : 'Kecilkan Sidebar'"
+                            class="hidden lg:flex items-center justify-center w-9 h-9 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-white/[0.07] text-slate-400 hover:text-white transition-all shrink-0">
+                        <i class="fa-solid text-xs transition-transform duration-200" :class="sidebarCollapsed ? 'fa-angles-right' : 'fa-bars-staggered'"></i>
+                    </button>
+                    <div class="min-w-0">
+                        <h1 class="text-base sm:text-xl font-extrabold text-white tracking-tight font-display truncate">@yield('page-title', 'Dashboard')</h1>
+                        <p class="text-[11px] sm:text-xs text-slate-400 truncate hidden sm:block">@yield('page-subtitle', 'Sistem Manajemen Fitness, Suplemen & POS')</p>
                     </div>
                 </div>
 
-                <!-- Right Quick Actions -->
-                <div class="flex items-center gap-2.5 sm:gap-3">
-                    <!-- Theme Color Indicator Pill -->
-                    <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/90 border border-white/[0.07] text-xs">
-                        <span class="w-2.5 h-2.5 rounded-full shadow-sm animate-pulse" style="background-color: var(--primary-accent); box-shadow: 0 0 10px var(--primary-glow);"></span>
-                        <span class="text-[11px] font-bold text-slate-300 font-display">{{ $appSetting->theme_config['name'] ?? 'Cyber Emerald' }}</span>
+                <!-- Center / Right Quick Search & Actions -->
+                <div class="flex items-center gap-2 sm:gap-2.5 shrink-0">
+                    
+                    <!-- Quick Command Palette Button (Ctrl+K) -->
+                    <button @click="cmdOpen = true; $nextTick(() => $refs.cmdInput.focus())"
+                            type="button"
+                            class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800/90 border border-white/[0.08] text-slate-400 hover:text-white text-xs transition-all group">
+                        <i class="fa-solid fa-magnifying-glass text-xs group-hover:scale-110 transition-transform" style="color: var(--primary-accent)"></i>
+                        <span class="hidden md:inline text-slate-400 group-hover:text-slate-200">Cari menu / aksi...</span>
+                        <kbd class="hidden md:inline-flex items-center px-1.5 py-0.5 text-[10px] font-mono font-bold bg-slate-800 text-slate-400 rounded border border-slate-700">Ctrl K</kbd>
+                    </button>
+
+                    <!-- Operational Alerts / Notification Bell Dropdown -->
+                    <div class="relative" @click.outside="notifOpen = false">
+                        <button @click="notifOpen = !notifOpen"
+                                type="button"
+                                title="Pusat Notifikasi Operasional"
+                                class="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-white/[0.08] flex items-center justify-center text-slate-300 hover:text-white transition-all">
+                            <i class="fa-regular fa-bell text-sm"></i>
+                            @if((($navCounts['total_alerts'] ?? 0) + ($navCounts['today_bookings'] ?? 0)) > 0)
+                                <span class="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-rose-500 text-white text-[10px] font-mono font-extrabold flex items-center justify-center shadow-lg">
+                                    {{ ($navCounts['total_alerts'] ?? 0) + ($navCounts['today_bookings'] ?? 0) }}
+                                </span>
+                            @endif
+                        </button>
+
+                        <!-- Notification Dropdown Panel -->
+                        <div x-show="notifOpen" x-cloak
+                             x-transition:enter="transition ease-out duration-150"
+                             x-transition:enter-start="opacity-0 scale-95 translate-y-1"
+                             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                             x-transition:leave="transition ease-in duration-100"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="absolute right-0 mt-2 w-80 sm:w-96 rounded-2xl bg-[#0B0F19] border border-slate-800 shadow-2xl z-50 overflow-hidden">
+                            <div class="px-4 py-3 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
+                                <div>
+                                    <h4 class="text-xs font-extrabold text-white font-display uppercase tracking-wider">Radar Operasional Gym</h4>
+                                    <p class="text-[11px] text-slate-400">Status inventori, booking & langganan</p>
+                                </div>
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                                    Live
+                                </span>
+                            </div>
+
+                            <div class="p-3 space-y-2 max-h-80 overflow-y-auto">
+                                <a href="{{ route('bookings.index') }}" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 transition-colors">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-9 h-9 rounded-xl bg-cyan-500/15 text-cyan-400 flex items-center justify-center shrink-0">
+                                            <i class="fa-solid fa-calendar-check text-sm"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-xs font-bold text-white">Jadwal Booking Hari Ini</div>
+                                            <div class="text-[11px] text-slate-400">{{ $navCounts['today_bookings'] ?? 0 }} sesi menunggu / aktif</div>
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-right text-[10px] text-slate-500"></i>
+                                </a>
+
+                                <a href="{{ route('supplements.index', ['status' => 'low_stock']) }}" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 transition-colors">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-9 h-9 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center shrink-0">
+                                            <i class="fa-solid fa-boxes-stacked text-sm"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-xs font-bold text-white">Stok Suplemen Menipis</div>
+                                            <div class="text-[11px] text-slate-400">{{ $navCounts['low_stock'] ?? 0 }} produk perlu restock</div>
+                                        </div>
+                                    </div>
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold {{ ($navCounts['low_stock'] ?? 0) > 0 ? 'bg-amber-500/20 text-amber-300' : 'bg-slate-800 text-slate-400' }}">
+                                        {{ $navCounts['low_stock'] ?? 0 }}
+                                    </span>
+                                </a>
+
+                                <a href="{{ route('supplements.index', ['status' => 'expiring_soon']) }}" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 transition-colors">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-9 h-9 rounded-xl bg-rose-500/15 text-rose-400 flex items-center justify-center shrink-0">
+                                            <i class="fa-solid fa-hourglass-half text-sm"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-xs font-bold text-white">Suplemen Hampir Kadaluarsa</div>
+                                            <div class="text-[11px] text-slate-400">{{ $navCounts['expiring_supplements'] ?? 0 }} produk dalam &lt; 30 hari</div>
+                                        </div>
+                                    </div>
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold {{ ($navCounts['expiring_supplements'] ?? 0) > 0 ? 'bg-rose-500/20 text-rose-300' : 'bg-slate-800 text-slate-400' }}">
+                                        {{ $navCounts['expiring_supplements'] ?? 0 }}
+                                    </span>
+                                </a>
+
+                                <a href="{{ route('members.index') }}" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 transition-colors">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-9 h-9 rounded-xl bg-purple-500/15 text-purple-400 flex items-center justify-center shrink-0">
+                                            <i class="fa-solid fa-id-card-clip text-sm"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-xs font-bold text-white">Member Hampir Habis</div>
+                                            <div class="text-[11px] text-slate-400">{{ $navCounts['expiring_members'] ?? 0 }} member berakhir &le; 7 hari</div>
+                                        </div>
+                                    </div>
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold {{ ($navCounts['expiring_members'] ?? 0) > 0 ? 'bg-purple-500/20 text-purple-300' : 'bg-slate-800 text-slate-400' }}">
+                                        {{ $navCounts['expiring_members'] ?? 0 }}
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Dark / Light Mode Toggle Button -->
                     <button @click="toggleTheme()" 
                             type="button" 
                             :title="darkMode ? 'Ganti ke Mode Terang' : 'Ganti ke Mode Gelap'"
-                            class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl border transition-all duration-200 flex items-center gap-2 text-xs font-bold
+                            class="w-9 h-9 sm:w-auto sm:px-3 sm:py-2 rounded-xl border transition-all duration-200 flex items-center justify-center gap-2 text-xs font-bold
                                    bg-white hover:bg-slate-100 text-slate-700 border-slate-200 shadow-sm
-                                   dark:bg-slate-900/90 dark:hover:bg-slate-800 dark:text-amber-300 dark:border-white/[0.08] hover:scale-105 active:scale-95 cursor-pointer">
+                                   dark:bg-slate-900/90 dark:hover:bg-slate-800 dark:text-amber-300 dark:border-white/[0.08] cursor-pointer">
                         <template x-if="darkMode">
                             <div class="flex items-center gap-1.5">
                                 <i class="fa-solid fa-moon text-cyan-400 text-xs"></i>
-                                <span class="hidden md:inline text-[11px] text-slate-300 font-display">Mode Gelap</span>
+                                <span class="hidden xl:inline text-[11px] text-slate-300 font-display">Gelap</span>
                             </div>
                         </template>
                         <template x-if="!darkMode">
                             <div class="flex items-center gap-1.5">
                                 <i class="fa-solid fa-sun text-amber-500 text-xs"></i>
-                                <span class="hidden md:inline text-[11px] text-slate-700 font-display">Mode Terang</span>
+                                <span class="hidden xl:inline text-[11px] text-slate-700 font-display">Terang</span>
                             </div>
                         </template>
                     </button>
 
                     <!-- Live Clock -->
-                    <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/90 border border-white/[0.07] text-xs font-mono text-slate-300"
+                    <div class="hidden xl:flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900/90 border border-white/[0.07] text-xs font-mono text-slate-300"
                          x-data="{ time: '' }" x-init="setInterval(() => { time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) }, 1000)">
                         <i class="fa-regular fa-clock" style="color: var(--primary-accent)"></i>
                         <span x-text="time || '{{ date('H:i:s') }}'">{{ date('H:i:s') }}</span>
@@ -986,12 +1209,59 @@
 
                     <!-- Quick POS Button -->
                     <a href="{{ route('pos.index') }}" 
-                       class="btn-theme-primary flex items-center gap-2 px-4 py-2.5 rounded-xl text-slate-950 font-black text-xs uppercase tracking-wider transition-all">
+                       class="btn-theme-primary flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-slate-950 font-black text-xs uppercase tracking-wider transition-all shrink-0">
                         <i class="fa-solid fa-cash-register"></i>
-                        <span>Kasir POS</span>
+                        <span class="hidden sm:inline">Kasir POS</span>
                     </a>
                 </div>
             </header>
+
+            <!-- Command Palette Modal (Ctrl+K) -->
+            <div x-show="cmdOpen" x-cloak
+                 class="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-black/75 backdrop-blur-sm"
+                 @click.self="cmdOpen = false">
+                <div x-show="cmdOpen"
+                     x-transition:enter="transition ease-out duration-150"
+                     x-transition:enter-start="opacity-0 scale-95"
+                     x-transition:enter-end="opacity-100 scale-100"
+                     class="w-full max-w-xl rounded-3xl bg-[#0B0F19] border border-slate-800 shadow-2xl overflow-hidden">
+                    <div class="p-4 border-b border-slate-800 flex items-center gap-3 bg-slate-900/50">
+                        <i class="fa-solid fa-magnifying-glass text-sm" style="color: var(--primary-accent)"></i>
+                        <input x-ref="cmdInput"
+                               x-model="cmdSearch"
+                               type="text"
+                               placeholder="Ketik nama menu, fitur, atau aksi cepat (contoh: POS, Booking, Suplemen, Laporan)..."
+                               class="w-full bg-transparent border-0 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-0">
+                        <button @click="cmdOpen = false" class="px-2 py-1 rounded-lg bg-slate-800 text-slate-400 hover:text-white text-[10px] font-mono uppercase">
+                            ESC
+                        </button>
+                    </div>
+                    <div class="p-3 max-h-96 overflow-y-auto space-y-1.5">
+                        <template x-for="(item, idx) in filteredCmdItems" :key="idx">
+                            <a :href="item.url"
+                               class="flex items-center justify-between p-3 rounded-2xl hover:bg-slate-900 border border-transparent hover:border-slate-800 transition-all group">
+                                <div class="flex items-center gap-3.5 min-w-0">
+                                    <div class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                                        <i class="fa-solid text-sm" :class="[item.icon, item.color]"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <div class="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors truncate" x-text="item.title"></div>
+                                        <div class="text-[11px] text-slate-400 truncate" x-text="item.desc"></div>
+                                    </div>
+                                </div>
+                                <span class="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-800 text-[10px] font-mono font-bold text-slate-400 shrink-0" x-text="item.badge"></span>
+                            </a>
+                        </template>
+                        <div x-show="filteredCmdItems.length === 0" class="py-10 text-center text-xs text-slate-500">
+                            Menu atau aksi tidak ditemukan untuk "<span class="text-white font-semibold" x-text="cmdSearch"></span>"
+                        </div>
+                    </div>
+                    <div class="px-4 py-2.5 border-t border-slate-800 bg-slate-900/40 flex items-center justify-between text-[11px] text-slate-400">
+                        <span>Pintasan Cepat Admin {{ $appSetting->app_name ?? 'FitZone' }}</span>
+                        <span class="font-mono text-[10px]">Tekan <strong class="text-slate-300">ESC</strong> untuk menutup</span>
+                    </div>
+                </div>
+            </div>
 
             <!-- Main Scrollable Content Container -->
             <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
