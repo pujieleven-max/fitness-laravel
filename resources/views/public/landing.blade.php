@@ -167,6 +167,14 @@
             color: #F8FAFC !important;
         }
 
+        /* Section Background Overlay for Program, Trainer & Facilities */
+        .program-section-overlay {
+            background: linear-gradient(180deg, #060911 0%, rgba(6, 9, 17, 0.84) 50%, #060911 100%);
+        }
+        html:not(.dark) .program-section-overlay {
+            background: linear-gradient(180deg, #F8FAFC 0%, rgba(248, 250, 252, 0.88) 50%, #F8FAFC 100%) !important;
+        }
+
         /* Range Slider Styling */
         input[type="range"] {
             accent-color: var(--primary-accent);
@@ -238,19 +246,28 @@
             background-color: #E2E8F0 !important;
             color: #0F172A !important;
         }
-        html:not(.dark) h1, html:not(.dark) h2, html:not(.dark) h3, html:not(.dark) h4 {
+        html:not(.dark) h1:not(.keep-white),
+        html:not(.dark) h2:not(.keep-white),
+        html:not(.dark) h3:not(.keep-white),
+        html:not(.dark) h4:not(.keep-white) {
             color: #0F172A !important;
         }
-        html:not(.dark) .photo-overlay-card h3 {
+        html:not(.dark) .photo-overlay-card h3,
+        .keep-white,
+        html:not(.dark) .keep-white {
             color: #FFFFFF !important;
+        }
+        .keep-slate-200,
+        html:not(.dark) .keep-slate-200 {
+            color: #E2E8F0 !important;
         }
         html:not(.dark) .text-white:not(.btn-theme-primary):not(.badge-solid-emerald):not(.badge-solid-amber):not(.keep-white) {
             color: #0F172A !important;
         }
-        html:not(.dark) .text-slate-200,
-        html:not(.dark) .text-slate-300 { color: #334155 !important; }
-        html:not(.dark) .text-slate-400 { color: #475569 !important; }
-        html:not(.dark) .text-slate-500 { color: #64748B !important; }
+        html:not(.dark) .text-slate-200:not(.keep-white):not(.keep-slate-200),
+        html:not(.dark) .text-slate-300:not(.keep-white):not(.keep-slate-200) { color: #1E293B !important; }
+        html:not(.dark) .text-slate-400:not(.keep-white):not(.keep-slate-200) { color: #334155 !important; }
+        html:not(.dark) .text-slate-500:not(.keep-white):not(.keep-slate-200) { color: #475569 !important; }
 
         /* Crisp Neon Text Colors on Light Backgrounds */
         html:not(.dark) .text-emerald-400,
@@ -884,8 +901,17 @@
         <!-- ==========================================
              SECTION 3: UNIFIED PROGRAM HUB (KELAS, TRAINER, FASILITAS)
              ========================================== -->
-        <section id="program" class="py-16 lg:py-20">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <section id="program" class="relative py-16 lg:py-24 overflow-hidden">
+            <!-- Section Background Image + Adaptive Overlay -->
+            <div class="absolute inset-0 pointer-events-none z-0">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1920&q=80"
+                     onerror="this.src='{{ asset('images/login-hero.jpg') }}'"
+                     alt="Gym Studio & Facilities Background"
+                     class="w-full h-full object-cover object-center opacity-35 scale-105">
+                <div class="absolute inset-0 program-section-overlay"></div>
+            </div>
+
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
                 
                 <!-- Section Header + 3-Way Tab Switcher -->
                 <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
@@ -943,86 +969,161 @@
                         </div>
                     </div>
 
+                    @php
+                        $classBgPool = [
+                            'https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=900&q=80',
+                            'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=900&q=80',
+                            'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=900&q=80',
+                            'https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=900&q=80',
+                            'https://images.unsplash.com/photo-1534258936925-c58bed479fcb?auto=format&fit=crop&w=900&q=80',
+                            'https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=900&q=80',
+                        ];
+                    @endphp
+
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        @foreach($classes as $cls)
+                        @foreach($classes as $idx => $cls)
+                            @php
+                                $clsLower = strtolower($cls->name . ' ' . $cls->category);
+                                if (str_contains($clsLower, 'yoga') || str_contains($clsLower, 'pilates') || str_contains($clsLower, 'mind')) {
+                                    $clsImg = 'https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=900&q=80';
+                                } elseif (str_contains($clsLower, 'rpm') || str_contains($clsLower, 'spin') || str_contains($clsLower, 'cycle')) {
+                                    $clsImg = 'https://images.unsplash.com/photo-1534258936925-c58bed479fcb?auto=format&fit=crop&w=900&q=80';
+                                } elseif (str_contains($clsLower, 'hiit') || str_contains($clsLower, 'burn') || str_contains($clsLower, 'cross')) {
+                                    $clsImg = 'https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=900&q=80';
+                                } elseif (str_contains($clsLower, 'zumba') || str_contains($clsLower, 'dance') || str_contains($clsLower, 'cardio')) {
+                                    $clsImg = 'https://images.unsplash.com/photo-1524594152303-9fd13543fe6e?auto=format&fit=crop&w=900&q=80';
+                                } elseif (str_contains($clsLower, 'box') || str_contains($clsLower, 'muay') || str_contains($clsLower, 'combat')) {
+                                    $clsImg = 'https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?auto=format&fit=crop&w=900&q=80';
+                                } else {
+                                    $clsImg = $classBgPool[$idx % count($classBgPool)];
+                                }
+                            @endphp
                             <div x-show="classDayFilter === 'all' || classDayFilter === '{{ $cls->schedule_day }}'"
-                                 class="p-6 rounded-3xl glass-panel glass-card-hover flex flex-col justify-between space-y-5">
-                                <div class="space-y-3.5">
-                                    <div class="flex items-center justify-between gap-2">
-                                        <span class="px-3 py-1 rounded-lg badge-cyan text-xs font-extrabold uppercase">
-                                            {{ $cls->category }}
-                                        </span>
-                                        <span class="px-3 py-1 rounded-lg badge-emerald font-mono text-xs font-bold">
-                                            {{ $cls->schedule_day }} &bull; {{ substr($cls->start_time, 0, 5) }}
-                                        </span>
-                                    </div>
+                                 class="rounded-3xl glass-panel glass-card-hover overflow-hidden flex flex-col justify-between group">
+                                
+                                <!-- Visual Background Image Header -->
+                                <div>
+                                    <div class="relative h-44 overflow-hidden bg-slate-950">
+                                        <img src="{{ $clsImg }}"
+                                             onerror="this.src='{{ asset('images/login-hero.jpg') }}'"
+                                             alt="{{ $cls->name }}"
+                                             class="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-[#0B0F19] via-[#0B0F19]/45 to-black/30"></div>
 
-                                    <div>
-                                        <h3 class="text-lg font-extrabold text-white font-display">{{ $cls->name }}</h3>
-                                        <p class="text-xs text-slate-400 mt-1 font-medium">
-                                            <i class="fa-solid fa-location-dot text-cyan-400 mr-1"></i> {{ $cls->room ?? 'Studio Utama' }}
-                                            &bull; Kapasitas {{ $cls->capacity }} Kursi
-                                        </p>
-                                    </div>
-
-                                    <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-white/[0.06] flex items-center justify-between">
-                                        <div class="flex items-center gap-2.5">
-                                            <div class="w-9 h-9 rounded-xl badge-cyan font-black text-xs flex items-center justify-center">
-                                                {{ strtoupper(substr($cls->trainer->name ?? 'C', 0, 2)) }}
-                                            </div>
-                                            <div>
-                                                <span class="text-[11px] text-slate-400 block">Instruktur</span>
-                                                <strong class="text-xs text-white">{{ $cls->trainer->name ?? 'Coach Studio' }}</strong>
-                                            </div>
+                                        <!-- Floating Top Badges -->
+                                        <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between gap-2">
+                                            <span class="px-3 py-1 rounded-lg photo-overlay-card text-[11px] font-extrabold uppercase tracking-wide keep-white">
+                                                {{ $cls->category }}
+                                            </span>
+                                            <span class="px-3 py-1 rounded-lg badge-solid-emerald font-mono text-xs font-bold">
+                                                {{ $cls->schedule_day }} &bull; {{ substr($cls->start_time, 0, 5) }}
+                                            </span>
                                         </div>
-                                        <div class="text-right">
-                                            <span class="text-[11px] text-slate-400 block">Tarif / Sesi</span>
-                                            <strong class="text-sm font-mono font-black text-emerald-400">{{ $currency }} {{ number_format($cls->price_per_session, 0, ',', '.') }}</strong>
+
+                                        <!-- Bottom Title Over Image -->
+                                        <div class="absolute bottom-3 left-4 right-4">
+                                            <h3 class="text-lg font-extrabold text-white keep-white font-display drop-shadow">{{ $cls->name }}</h3>
+                                            <p class="text-xs text-slate-200 keep-white mt-0.5 font-medium flex items-center gap-1.5">
+                                                <i class="fa-solid fa-location-dot text-emerald-400"></i>
+                                                <span>{{ $cls->room ?? 'Studio Utama' }}</span>
+                                                <span>&bull;</span>
+                                                <span>Kapasitas {{ $cls->capacity }} Kursi</span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Card Body -->
+                                    <div class="p-5 pb-4">
+                                        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-white/[0.06] flex items-center justify-between">
+                                            <div class="flex items-center gap-2.5">
+                                                <div class="w-9 h-9 rounded-xl badge-cyan font-black text-xs flex items-center justify-center">
+                                                    {{ strtoupper(substr($cls->trainer->name ?? 'C', 0, 2)) }}
+                                                </div>
+                                                <div>
+                                                    <span class="text-[11px] text-slate-400 block">Instruktur</span>
+                                                    <strong class="text-xs text-white">{{ $cls->trainer->name ?? 'Coach Studio' }}</strong>
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <span class="text-[11px] text-slate-400 block">Tarif / Sesi</span>
+                                                <strong class="text-sm font-mono font-black text-emerald-400">{{ $currency }} {{ number_format($cls->price_per_session, 0, ',', '.') }}</strong>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <button type="button"
-                                        @click="openBookingModal('fitness_class', {{ $cls->id }})"
-                                        class="btn-theme-primary w-full py-3 rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer">
-                                    <i class="fa-solid fa-calendar-check"></i>
-                                    <span>Reservasi Kursi Kelas</span>
-                                </button>
+                                <div class="px-5 pb-5">
+                                    <button type="button"
+                                            @click="openBookingModal('fitness_class', {{ $cls->id }})"
+                                            class="btn-theme-primary w-full py-3 rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer">
+                                        <i class="fa-solid fa-calendar-check"></i>
+                                        <span>Reservasi Kursi Kelas</span>
+                                    </button>
+                                </div>
                             </div>
                         @endforeach
                     </div>
                 </div>
 
                 <!-- TAB 2: PERSONAL TRAINERS -->
+                @php
+                    $trainerBgPool = [
+                        'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80',
+                        'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=800&q=80',
+                        'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&q=80',
+                        'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80',
+                    ];
+                @endphp
                 <div x-show="programTab === 'trainers'" x-cloak x-transition class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    @foreach($trainers as $trainer)
-                        <div class="p-6 rounded-3xl glass-panel glass-card-hover flex flex-col justify-between space-y-5">
-                            <div class="space-y-4">
-                                <div class="flex items-center gap-3.5">
-                                    @if(!empty($trainer->photo))
-                                        <img src="{{ asset('storage/' . $trainer->photo) }}" alt="{{ $trainer->name }}"
-                                             class="w-14 h-14 rounded-2xl object-cover border border-emerald-500/40 shrink-0">
-                                    @else
-                                        <div class="w-14 h-14 rounded-2xl badge-solid-emerald font-display font-black text-lg flex items-center justify-center shrink-0">
-                                            {{ strtoupper(substr(str_replace('Coach ', '', $trainer->name), 0, 2)) }}
-                                        </div>
-                                    @endif
-                                    <div>
-                                        <span class="inline-block px-2.5 py-0.5 rounded-md badge-emerald text-[10px] font-mono uppercase font-bold">Certified PT</span>
-                                        <h3 class="text-base font-extrabold text-white font-display mt-1">{{ $trainer->name }}</h3>
+                    @foreach($trainers as $tIdx => $trainer)
+                        @php
+                            $tBg = $trainerBgPool[$tIdx % count($trainerBgPool)];
+                        @endphp
+                        <div class="rounded-3xl glass-panel glass-card-hover overflow-hidden flex flex-col justify-between group">
+                            <div>
+                                <!-- Trainer Cover Background Banner -->
+                                <div class="relative h-36 overflow-hidden bg-slate-950">
+                                    <img src="{{ $tBg }}"
+                                         onerror="this.src='{{ asset('images/login-hero.jpg') }}'"
+                                         alt="{{ $trainer->name }}"
+                                         class="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-[#0B0F19] via-[#0B0F19]/40 to-black/25"></div>
+
+                                    <div class="absolute top-3 right-3">
+                                        <span class="inline-block px-2.5 py-1 rounded-lg badge-solid-emerald text-[10px] font-mono uppercase font-bold">
+                                            <i class="fa-solid fa-certificate mr-1"></i> Certified PT
+                                        </span>
                                     </div>
                                 </div>
 
-                                <div class="px-3 py-2 rounded-xl badge-cyan text-xs font-bold">
-                                    {{ $trainer->specialization ?? 'Strength & Conditioning' }}
-                                </div>
+                                <!-- Trainer Profile & Bio -->
+                                <div class="p-5 pt-0 space-y-3.5 relative">
+                                    <div class="flex items-end gap-3.5 -mt-8 relative z-10">
+                                        @if(!empty($trainer->photo))
+                                            <img src="{{ asset('storage/' . $trainer->photo) }}" alt="{{ $trainer->name }}"
+                                                 class="w-16 h-16 rounded-2xl object-cover border-2 border-emerald-500 shadow-xl shrink-0 bg-slate-900">
+                                        @else
+                                            <div class="w-16 h-16 rounded-2xl badge-solid-emerald font-display font-black text-xl flex items-center justify-center shrink-0 shadow-xl">
+                                                {{ strtoupper(substr(str_replace('Coach ', '', $trainer->name), 0, 2)) }}
+                                            </div>
+                                        @endif
+                                        <div class="pb-0.5 min-w-0">
+                                            <h3 class="text-base font-extrabold text-white font-display truncate">{{ $trainer->name }}</h3>
+                                            <span class="text-[11px] text-emerald-400 font-bold block truncate">Personal Coach 1-on-1</span>
+                                        </div>
+                                    </div>
 
-                                <p class="text-xs text-slate-400 leading-relaxed">
-                                    {{ $trainer->bio }}
-                                </p>
+                                    <div class="px-3 py-2 rounded-xl badge-cyan text-xs font-bold">
+                                        <i class="fa-solid fa-bolt mr-1"></i> {{ $trainer->specialization ?? 'Strength & Conditioning' }}
+                                    </div>
+
+                                    <p class="text-xs text-slate-400 leading-relaxed">
+                                        {{ $trainer->bio }}
+                                    </p>
+                                </div>
                             </div>
 
-                            <div class="pt-4 border-t border-white/[0.07] space-y-3">
+                            <div class="px-5 pb-5 pt-3 border-t border-white/[0.07] space-y-3">
                                 <div class="flex items-center justify-between text-xs">
                                     <span class="text-slate-400 font-medium">Sesi Privat 1-on-1</span>
                                     <strong class="text-white font-mono text-sm">{{ $currency }} {{ number_format($trainer->hourly_rate, 0, ',', '.') }}/jam</strong>
@@ -1040,20 +1141,79 @@
 
                 <!-- TAB 3: FASILITAS GYM -->
                 <div x-show="programTab === 'facilities'" x-cloak x-transition class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="p-6 rounded-3xl glass-panel space-y-3">
-                        <div class="w-11 h-11 rounded-2xl badge-emerald flex items-center justify-center text-lg"><i class="fa-solid fa-dumbbell"></i></div>
-                        <h3 class="text-base font-extrabold text-white font-display">Free Weights & Mesin Presisi</h3>
-                        <p class="text-xs text-slate-400 leading-relaxed">Power rack, bench press, dumbbell lengkap hingga 50kg, serta mesin isolasi otot biomekanik yang aman untuk pemula maupun atlet.</p>
+                    <!-- Facility 1 -->
+                    <div class="rounded-3xl glass-panel glass-card-hover overflow-hidden group flex flex-col justify-between">
+                        <div>
+                            <div class="relative h-48 overflow-hidden bg-slate-950">
+                                <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=900&q=80"
+                                     onerror="this.src='{{ asset('images/login-hero.jpg') }}'"
+                                     alt="Free Weights & Mesin Presisi"
+                                     class="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#0B0F19] via-[#0B0F19]/40 to-transparent"></div>
+                                <div class="absolute top-3.5 left-3.5 w-11 h-11 rounded-2xl badge-solid-emerald flex items-center justify-center text-lg shadow-lg">
+                                    <i class="fa-solid fa-dumbbell"></i>
+                                </div>
+                                <div class="absolute bottom-3 left-4 right-4">
+                                    <span class="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold block">Zona Strength & Hypertrophy</span>
+                                    <h3 class="text-lg font-extrabold text-white keep-white font-display">Free Weights & Mesin Presisi</h3>
+                                </div>
+                            </div>
+                            <div class="p-6 pt-4">
+                                <p class="text-xs text-slate-400 leading-relaxed">
+                                    Power rack, bench press, dumbbell lengkap hingga 50kg, serta mesin isolasi otot biomekanik yang aman untuk pemula maupun atlet profesional.
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="p-6 rounded-3xl glass-panel space-y-3">
-                        <div class="w-11 h-11 rounded-2xl badge-cyan flex items-center justify-center text-lg"><i class="fa-solid fa-heart-pulse"></i></div>
-                        <h3 class="text-base font-extrabold text-white font-display">Cardio Theater & Turf Area</h3>
-                        <p class="text-xs text-slate-400 leading-relaxed">Treadmill komersial, elliptical, stationary bike, dan area functional training untuk HIIT & ketangkasan.</p>
+
+                    <!-- Facility 2 -->
+                    <div class="rounded-3xl glass-panel glass-card-hover overflow-hidden group flex flex-col justify-between">
+                        <div>
+                            <div class="relative h-48 overflow-hidden bg-slate-950">
+                                <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=900&q=80"
+                                     onerror="this.src='{{ asset('images/login-hero.jpg') }}'"
+                                     alt="Cardio Theater & Turf Area"
+                                     class="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#0B0F19] via-[#0B0F19]/40 to-transparent"></div>
+                                <div class="absolute top-3.5 left-3.5 w-11 h-11 rounded-2xl photo-overlay-card flex items-center justify-center text-lg text-cyan-400 shadow-lg">
+                                    <i class="fa-solid fa-heart-pulse"></i>
+                                </div>
+                                <div class="absolute bottom-3 left-4 right-4">
+                                    <span class="text-[10px] font-mono uppercase tracking-wider text-cyan-400 font-bold block">Zona Endurance & Functional</span>
+                                    <h3 class="text-lg font-extrabold text-white keep-white font-display">Cardio Theater & Turf Area</h3>
+                                </div>
+                            </div>
+                            <div class="p-6 pt-4">
+                                <p class="text-xs text-slate-400 leading-relaxed">
+                                    Treadmill komersial, elliptical, stationary bike, dan area functional training berlantai sintetis untuk HIIT, battle rope & ketangkasan.
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="p-6 rounded-3xl glass-panel space-y-3">
-                        <div class="w-11 h-11 rounded-2xl badge-amber flex items-center justify-center text-lg"><i class="fa-solid fa-shower"></i></div>
-                        <h3 class="text-base font-extrabold text-white font-display">Locker Room, Hot Shower & Shake Bar</h3>
-                        <p class="text-xs text-slate-400 leading-relaxed">Kamar ganti bersih dengan air hangat, loker aman, Wi-Fi cepat, dan bar suplemen protein siap minum seusai latihan.</p>
+
+                    <!-- Facility 3 -->
+                    <div class="rounded-3xl glass-panel glass-card-hover overflow-hidden group flex flex-col justify-between">
+                        <div>
+                            <div class="relative h-48 overflow-hidden bg-slate-950">
+                                <img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=900&q=80"
+                                     onerror="this.src='{{ asset('images/login-hero.jpg') }}'"
+                                     alt="Locker Room, Hot Shower & Shake Bar"
+                                     class="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#0B0F19] via-[#0B0F19]/40 to-transparent"></div>
+                                <div class="absolute top-3.5 left-3.5 w-11 h-11 rounded-2xl badge-solid-amber flex items-center justify-center text-lg shadow-lg">
+                                    <i class="fa-solid fa-shower"></i>
+                                </div>
+                                <div class="absolute bottom-3 left-4 right-4">
+                                    <span class="text-[10px] font-mono uppercase tracking-wider text-amber-400 font-bold block">Kenyamanan & Recovery</span>
+                                    <h3 class="text-lg font-extrabold text-white keep-white font-display">Locker Room, Hot Shower & Shake Bar</h3>
+                                </div>
+                            </div>
+                            <div class="p-6 pt-4">
+                                <p class="text-xs text-slate-400 leading-relaxed">
+                                    Kamar ganti bersih dengan air hangat, loker aman, Wi-Fi cepat, dan bar suplemen protein siap minum seusai sesi latihan Anda.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1179,118 +1339,168 @@
         <!-- ==========================================
              SECTION 5: SLIDER-BASED SMART BMI & MACRO ANALYZER
              ========================================== -->
-        <section id="kalkulator" class="py-16 lg:py-20">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <section id="kalkulator" class="relative py-16 lg:py-24 overflow-hidden">
+            <!-- Section Background Image + Adaptive Overlay -->
+            <div class="absolute inset-0 pointer-events-none z-0">
+                <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1920&q=80"
+                     onerror="this.src='{{ asset('images/login-hero.jpg') }}'"
+                     alt="Kalkulator BMI & Nutrisi Harian Background"
+                     class="w-full h-full object-cover object-center opacity-35 scale-105">
+                <div class="absolute inset-0 program-section-overlay"></div>
+                <div class="absolute -left-24 top-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl opacity-15" style="background: var(--primary-accent);"></div>
+                <div class="absolute -right-24 top-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500 rounded-full blur-3xl opacity-10"></div>
+            </div>
+
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+                
+                <!-- Section Heading for High Contrast Readability -->
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <div class="space-y-2">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full badge-emerald text-xs font-bold uppercase tracking-wider">
+                            <i class="fa-solid fa-calculator"></i> Smart Body & Macro Analyzer
+                        </span>
+                        <h2 class="text-2xl sm:text-4xl font-black text-white font-display tracking-tight">
+                            Kalkulator BMI & Nutrisi Harian
+                        </h2>
+                        <p class="text-xs sm:text-sm text-slate-300 font-medium">
+                            Hitung Indeks Massa Tubuh, kebutuhan kalori harian (TDEE), dan target protein sesuai tujuan latihan Anda.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
                     
                     <!-- Left: Interactive Sliders (6 Cols) -->
-                    <div class="lg:col-span-6 p-6 sm:p-8 rounded-3xl glass-panel space-y-6">
-                        <div class="flex items-center justify-between gap-2">
-                            <div>
-                                <span class="inline-block px-3 py-1 rounded-full badge-emerald text-[11px] font-mono uppercase font-bold">Body Analyzer</span>
-                                <h2 class="text-2xl font-black text-white font-display mt-1.5">Kalkulator BMI & Nutrisi Harian</h2>
-                            </div>
-                            <div class="flex gap-1.5 bg-slate-900 p-1 rounded-xl border border-white/10">
-                                <button type="button" @click="bmiGender = 'male'"
-                                        :class="bmiGender === 'male' ? 'btn-theme-primary' : 'text-slate-400'"
-                                        class="px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer">Pria</button>
-                                <button type="button" @click="bmiGender = 'female'"
-                                        :class="bmiGender === 'female' ? 'btn-theme-primary' : 'text-slate-400'"
-                                        class="px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer">Wanita</button>
+                    <div class="lg:col-span-6 rounded-3xl glass-panel overflow-hidden shadow-2xl flex flex-col justify-between">
+                        <!-- Visual Cover Header inside Calculator Card -->
+                        <div class="relative h-36 overflow-hidden bg-black">
+                            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1000&q=80"
+                                 onerror="this.src='{{ asset('images/login-hero.jpg') }}'"
+                                 alt="Body Analyzer"
+                                 class="w-full h-full object-cover object-center">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/30"></div>
+
+                            <div class="absolute inset-0 p-6 flex items-end justify-between gap-3">
+                                <div>
+                                    <span class="inline-block px-3 py-1 rounded-full badge-solid-emerald text-[10px] font-mono uppercase font-bold">
+                                        <i class="fa-solid fa-sliders mr-1"></i> Body Analyzer
+                                    </span>
+                                    <h3 class="text-xl sm:text-2xl font-black text-white keep-white font-display mt-1.5 drop-shadow-md">
+                                        Kalkulator BMI & Nutrisi Harian
+                                    </h3>
+                                </div>
+                                <div class="flex gap-1.5 photo-overlay-card p-1 rounded-xl shrink-0">
+                                    <button type="button" @click="bmiGender = 'male'"
+                                            :class="bmiGender === 'male' ? 'btn-theme-primary' : 'text-white keep-white hover:opacity-80'"
+                                            class="px-3.5 py-1.5 rounded-lg text-xs font-extrabold cursor-pointer transition-all">Pria</button>
+                                    <button type="button" @click="bmiGender = 'female'"
+                                            :class="bmiGender === 'female' ? 'btn-theme-primary' : 'text-white keep-white hover:opacity-80'"
+                                            class="px-3.5 py-1.5 rounded-lg text-xs font-extrabold cursor-pointer transition-all">Wanita</button>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Range Sliders -->
-                        <div class="space-y-4">
-                            <div>
-                                <div class="flex justify-between text-xs font-bold mb-1.5">
-                                    <span class="text-slate-300">Berat Badan</span>
-                                    <span class="px-2 py-0.5 rounded badge-emerald font-mono" x-text="bmiWeight + ' KG'"></span>
+                        <div class="p-6 sm:p-8 pt-5 space-y-6">
+                            <!-- Range Sliders -->
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-xs font-bold mb-1.5">
+                                        <span class="text-white font-bold">Berat Badan</span>
+                                        <span class="px-2.5 py-0.5 rounded-md badge-emerald font-mono font-extrabold" x-text="bmiWeight + ' KG'"></span>
+                                    </div>
+                                    <input type="range" x-model.number="bmiWeight" min="35" max="160" step="1" class="w-full h-2 bg-slate-800 rounded-lg cursor-pointer">
                                 </div>
-                                <input type="range" x-model.number="bmiWeight" min="35" max="160" step="1" class="w-full h-2 bg-slate-800 rounded-lg cursor-pointer">
+
+                                <div>
+                                    <div class="flex justify-between text-xs font-bold mb-1.5">
+                                        <span class="text-white font-bold">Tinggi Badan</span>
+                                        <span class="px-2.5 py-0.5 rounded-md badge-cyan font-mono font-extrabold" x-text="bmiHeight + ' CM'"></span>
+                                    </div>
+                                    <input type="range" x-model.number="bmiHeight" min="135" max="210" step="1" class="w-full h-2 bg-slate-800 rounded-lg cursor-pointer">
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-xs font-bold mb-1.5">
+                                        <span class="text-white font-bold">Usia</span>
+                                        <span class="px-2.5 py-0.5 rounded-md badge-amber font-mono font-extrabold" x-text="bmiAge + ' Tahun'"></span>
+                                    </div>
+                                    <input type="range" x-model.number="bmiAge" min="15" max="75" step="1" class="w-full h-2 bg-slate-800 rounded-lg cursor-pointer">
+                                </div>
                             </div>
 
-                            <div>
-                                <div class="flex justify-between text-xs font-bold mb-1.5">
-                                    <span class="text-slate-300">Tinggi Badan</span>
-                                    <span class="px-2 py-0.5 rounded badge-cyan font-mono" x-text="bmiHeight + ' CM'"></span>
-                                </div>
-                                <input type="range" x-model.number="bmiHeight" min="135" max="210" step="1" class="w-full h-2 bg-slate-800 rounded-lg cursor-pointer">
+                            <div class="grid grid-cols-3 gap-2 pt-1">
+                                <button type="button" @click="bmiGoal = 'cut'"
+                                        :class="bmiGoal === 'cut' ? 'btn-theme-primary' : 'badge-neutral'"
+                                        class="py-2.5 rounded-xl text-xs font-bold cursor-pointer">Fat Loss</button>
+                                <button type="button" @click="bmiGoal = 'Maintain'"
+                                        :class="bmiGoal === 'Maintain' ? 'btn-theme-primary' : 'badge-neutral'"
+                                        class="py-2.5 rounded-xl text-xs font-bold cursor-pointer">Stay Fit</button>
+                                <button type="button" @click="bmiGoal = 'bulk'"
+                                        :class="bmiGoal === 'bulk' ? 'btn-theme-primary' : 'badge-neutral'"
+                                        class="py-2.5 rounded-xl text-xs font-bold cursor-pointer">Muscle Gain</button>
                             </div>
-
-                            <div>
-                                <div class="flex justify-between text-xs font-bold mb-1.5">
-                                    <span class="text-slate-300">Usia</span>
-                                    <span class="px-2 py-0.5 rounded badge-amber font-mono" x-text="bmiAge + ' Tahun'"></span>
-                                </div>
-                                <input type="range" x-model.number="bmiAge" min="15" max="75" step="1" class="w-full h-2 bg-slate-800 rounded-lg cursor-pointer">
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-3 gap-2 pt-1">
-                            <button type="button" @click="bmiGoal = 'cut'"
-                                    :class="bmiGoal === 'cut' ? 'btn-theme-primary' : 'badge-neutral'"
-                                    class="py-2.5 rounded-xl text-xs font-bold cursor-pointer">Fat Loss</button>
-                            <button type="button" @click="bmiGoal = 'Maintain'"
-                                    :class="bmiGoal === 'Maintain' ? 'btn-theme-primary' : 'badge-neutral'"
-                                    class="py-2.5 rounded-xl text-xs font-bold cursor-pointer">Stay Fit</button>
-                            <button type="button" @click="bmiGoal = 'bulk'"
-                                    :class="bmiGoal === 'bulk' ? 'btn-theme-primary' : 'badge-neutral'"
-                                    class="py-2.5 rounded-xl text-xs font-bold cursor-pointer">Muscle Gain</button>
                         </div>
                     </div>
 
                     <!-- Right: Visual Gauge & Macro Recommendation (6 Cols) -->
-                    <div class="lg:col-span-6 p-6 sm:p-8 rounded-3xl glass-panel border border-emerald-500/30 space-y-6">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <span class="text-xs font-medium text-slate-400 block">Kategori Indeks Massa Tubuh</span>
-                                <span class="inline-block mt-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold" :class="bmiCategory.badge" x-text="bmiCategory.label"></span>
-                            </div>
-                            <div class="text-right">
-                                <span class="text-xs font-mono text-slate-400 block">Skor BMI</span>
-                                <span class="text-4xl font-black font-mono" :class="bmiCategory.color" x-text="bmiScore"></span>
-                            </div>
-                        </div>
+                    <div class="lg:col-span-6 p-6 sm:p-8 rounded-3xl glass-panel border border-emerald-500/30 space-y-6 relative overflow-hidden shadow-2xl flex flex-col justify-between">
+                        <!-- Subtle Card Background Image Watermark -->
+                        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=900&q=80"
+                             onerror="this.src='{{ asset('images/login-hero.jpg') }}'"
+                             alt="BMI Result Background"
+                             class="absolute inset-0 w-full h-full object-cover object-center opacity-10 pointer-events-none">
 
-                        <!-- Visual BMI Spectrum Bar -->
-                        <div class="space-y-1.5">
-                            <div class="h-3 rounded-full bg-gradient-to-r from-cyan-400 via-emerald-400 via-amber-400 to-rose-500 relative">
-                                <div class="w-4 h-4 rounded-full bg-white border-2 border-slate-950 shadow-lg absolute -top-0.5 -translate-x-1/2 transition-all duration-200"
-                                     :style="`left: ${bmiPercentagePosition}%`"></div>
+                        <div class="relative z-10 space-y-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-xs font-bold text-slate-300 block">Kategori Indeks Massa Tubuh</span>
+                                    <span class="inline-block mt-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold" :class="bmiCategory.badge" x-text="bmiCategory.label"></span>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-xs font-mono font-bold text-slate-300 block">Skor BMI</span>
+                                    <span class="text-4xl font-black font-mono" :class="bmiCategory.color" x-text="bmiScore"></span>
+                                </div>
                             </div>
-                            <div class="flex justify-between text-[11px] font-mono font-semibold text-slate-400">
-                                <span>18.5 (Kurus)</span>
-                                <span>22.0 (Ideal)</span>
-                                <span>25.0 (Berlebih)</span>
-                                <span>30+ (Obesitas)</span>
-                            </div>
-                        </div>
 
-                        <!-- Macro Targets -->
-                        <div class="grid grid-cols-3 gap-3">
-                            <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-white/[0.06]">
-                                <span class="text-[11px] font-medium text-slate-400 block">TDEE Harian</span>
-                                <strong class="text-base sm:text-lg font-black text-white font-mono" x-text="tdeeCalories + ' kkal'"></strong>
+                            <!-- Visual BMI Spectrum Bar -->
+                            <div class="space-y-1.5">
+                                <div class="h-3 rounded-full bg-gradient-to-r from-cyan-400 via-emerald-400 via-amber-400 to-rose-500 relative">
+                                    <div class="w-4 h-4 rounded-full bg-white border-2 border-slate-950 shadow-lg absolute -top-0.5 -translate-x-1/2 transition-all duration-200"
+                                         :style="`left: ${bmiPercentagePosition}%`"></div>
+                                </div>
+                                <div class="flex justify-between text-[11px] font-mono font-bold text-slate-300">
+                                    <span>18.5 (Kurus)</span>
+                                    <span>22.0 (Ideal)</span>
+                                    <span>25.0 (Berlebih)</span>
+                                    <span>30+ (Obesitas)</span>
+                                </div>
                             </div>
-                            <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-emerald-500/30">
-                                <span class="text-[11px] text-emerald-400 font-bold block">Target Kalori</span>
-                                <strong class="text-base sm:text-lg font-black text-emerald-400 font-mono" x-text="targetCalories + ' kkal'"></strong>
-                            </div>
-                            <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-cyan-500/30">
-                                <span class="text-[11px] text-cyan-400 font-bold block">Target Protein</span>
-                                <strong class="text-base sm:text-lg font-black text-cyan-400 font-mono" x-text="targetProtein + 'g / hari'"></strong>
-                            </div>
-                        </div>
 
-                        <p class="text-xs text-slate-300 leading-relaxed p-4 rounded-2xl bg-slate-900/80 border border-white/[0.06]" x-text="bmiCategory.advice"></p>
+                            <!-- Macro Targets -->
+                            <div class="grid grid-cols-3 gap-3">
+                                <div class="p-3.5 rounded-2xl bg-slate-900/95 border border-white/10">
+                                    <span class="text-[11px] font-bold text-slate-300 block">TDEE Harian</span>
+                                    <strong class="text-base sm:text-lg font-black text-white font-mono" x-text="tdeeCalories + ' kkal'"></strong>
+                                </div>
+                                <div class="p-3.5 rounded-2xl bg-slate-900/95 border border-emerald-500/40">
+                                    <span class="text-[11px] text-emerald-400 font-extrabold block">Target Kalori</span>
+                                    <strong class="text-base sm:text-lg font-black text-emerald-400 font-mono" x-text="targetCalories + ' kkal'"></strong>
+                                </div>
+                                <div class="p-3.5 rounded-2xl bg-slate-900/95 border border-cyan-500/40">
+                                    <span class="text-[11px] text-cyan-400 font-extrabold block">Target Protein</span>
+                                    <strong class="text-base sm:text-lg font-black text-cyan-400 font-mono" x-text="targetProtein + 'g / hari'"></strong>
+                                </div>
+                            </div>
 
-                        <div class="flex items-center justify-end gap-3">
-                            <button type="button" @click="openBookingModal('personal_trainer', null, 'Konsultasi Target BMI ' + bmiScore + ' (' + bmiCategory.label + ')')"
-                                    class="btn-theme-primary px-5 py-3 rounded-xl text-xs uppercase tracking-wider flex items-center gap-2 cursor-pointer">
-                                <i class="fa-solid fa-calendar-check"></i>
-                                <span>Jadwalkan Konsultasi PT</span>
-                            </button>
+                            <p class="text-xs text-slate-200 font-medium leading-relaxed p-4 rounded-2xl bg-slate-900/95 border border-white/10" x-text="bmiCategory.advice"></p>
+
+                            <div class="flex items-center justify-end gap-3">
+                                <button type="button" @click="openBookingModal('personal_trainer', null, 'Konsultasi Target BMI ' + bmiScore + ' (' + bmiCategory.label + ')')"
+                                        class="btn-theme-primary px-5 py-3 rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer">
+                                    <i class="fa-solid fa-calendar-check"></i>
+                                    <span>Jadwalkan Konsultasi PT</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
