@@ -146,6 +146,12 @@
 
                             <td class="py-3.5 px-4 text-right whitespace-nowrap">
                                 <div class="flex items-center justify-end gap-1.5">
+                                    <a href="{{ route('assessments.member', $mbr->id) }}"
+                                       class="p-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 transition-colors"
+                                       title="Progres Kebugaran & Asesmen">
+                                        <i class="fa-solid fa-heart-pulse"></i>
+                                    </a>
+
                                     <button @click="selectedMemberId = {{ $mbr->id }}; 
                                                     editName = '{{ addslashes($mbr->name) }}';
                                                     editPhone = '{{ $mbr->phone }}';

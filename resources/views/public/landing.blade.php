@@ -594,6 +594,23 @@
                     <i :class="darkMode ? 'fa-solid fa-sun text-amber-400' : 'fa-solid fa-moon text-slate-700'" class="text-sm"></i>
                 </button>
 
+                <!-- Staff Login Icon Button -->
+                @auth
+                    <a href="{{ route('dashboard') }}"
+                       class="w-10 h-10 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-white/[0.08] flex items-center justify-center text-emerald-400 hover:text-emerald-300 transition-all"
+                       title="Dashboard Staff ({{ auth()->user()->name }})"
+                       aria-label="Dashboard Staff">
+                        <i class="fa-solid fa-gauge-high text-sm"></i>
+                    </a>
+                @else
+                    <a href="{{ route('login') }}"
+                       class="w-10 h-10 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-white/[0.08] flex items-center justify-center text-slate-300 hover:text-emerald-400 transition-all"
+                       title="Login Staff"
+                       aria-label="Login Staff">
+                        <i class="fa-solid fa-user-shield text-sm"></i>
+                    </a>
+                @endauth
+
                 <!-- Single Primary CTA -->
                 <button type="button" @click="openBookingModal('personal_trainer')"
                         class="hidden sm:inline-flex btn-theme-primary px-4 py-2.5 rounded-xl text-xs uppercase tracking-wider items-center gap-2 cursor-pointer">

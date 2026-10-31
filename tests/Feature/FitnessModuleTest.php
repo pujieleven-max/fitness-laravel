@@ -33,7 +33,7 @@ class FitnessModuleTest extends TestCase
         // Dashboard
         $response = $this->get('/dashboard');
         $response->assertStatus(200);
-        $response->assertSee('Executive Dashboard');
+        $response->assertSee('Executive Command Center');
 
         // POS
         $response = $this->get('/pos');
@@ -128,7 +128,7 @@ class FitnessModuleTest extends TestCase
         // Kasir Dashboard
         $response = $this->get('/dashboard');
         $response->assertStatus(200);
-        $response->assertSee('Dashboard Kasir Frontdesk');
+        $response->assertSee('Frontdesk & Shift Kasir');
 
         // POS
         $response = $this->get('/pos');

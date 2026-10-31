@@ -776,8 +776,11 @@
               { title: 'Member & Langganan', desc: 'Data member aktif, perpanjangan & riwayat', icon: 'fa-id-card-clip', color: 'text-purple-400', url: '{{ route('members.index') }}', badge: 'CRM' },
               { title: 'Tiket Masuk & Paket Gym', desc: 'Atur harga Daily Pass & paket bulanan', icon: 'fa-ticket', color: 'text-amber-400', url: '{{ route('packages.index') }}', badge: 'Paket' },
               { title: 'Trainer & Kelas Studio', desc: 'Kelola instruktur PT dan jadwal kelas grup', icon: 'fa-person-running', color: 'text-rose-400', url: '{{ route('trainers.index') }}', badge: 'SDM' },
+              { title: 'Progres Kebugaran & Asesmen', desc: 'Catat timbangan berat badan, lingkar tubuh & body fat klien', icon: 'fa-heart-pulse', color: 'text-rose-400', url: '{{ route('assessments.index') }}', badge: 'Fitness' },
+              { title: 'Catat Asesmen Kebugaran Baru', desc: 'Form pengukuran komposisi tubuh & lingkar badan klien PT', icon: 'fa-weight-scale', color: 'text-emerald-400', url: '{{ route('assessments.create') }}', badge: 'Aksi' },
               { title: 'Riwayat Transaksi Kasir', desc: 'Daftar struk penjualan & cetak ulang struk', icon: 'fa-receipt', color: 'text-slate-300', url: '{{ route('pos.orders') }}', badge: 'Kasir' },
               @if(Auth::user()->isOwner())
+              { title: 'Log Aktivitas & Audit (Tracking User)', desc: 'Riwayat INSERT, UPDATE, DELETE & pelacak pelaku kesalahan', icon: 'fa-shield-halved', color: 'text-amber-400', url: '{{ route('activities.index') }}', badge: 'Audit' },
               { title: 'Laporan Laba & Keuangan', desc: 'Analisis profitabilitas, margin, & metode bayar', icon: 'fa-chart-line', color: 'text-amber-400', url: '{{ route('reports.index') }}', badge: 'Owner' },
               { title: 'Kelola Kasir & Owner', desc: 'Manajemen akun staf kasir & hak akses', icon: 'fa-users-gear', color: 'text-amber-400', url: '{{ route('users.index') }}', badge: 'Owner' },
               { title: 'Pengaturan Aplikasi & Tema', desc: 'Ubah identitas gym, logo, & warna aksen tema', icon: 'fa-sliders', color: 'text-amber-400', url: '{{ route('settings.index') }}', badge: 'Owner' },
@@ -980,6 +983,14 @@
                     <span :class="sidebarCollapsed ? 'lg:hidden' : ''">Trainer & Kelas Studio</span>
                 </a>
 
+                <a href="{{ route('assessments.index') }}" title="Progres Kebugaran & Asesmen Member"
+                   :class="sidebarCollapsed ? 'lg:justify-center lg:px-0' : 'px-3.5'"
+                   class="flex items-center gap-3 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('assessments*') ? 'sidebar-link-active font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
+                    <i class="fa-solid fa-heart-pulse w-5 text-center {{ request()->routeIs('assessments*') ? '' : 'text-slate-400' }}"
+                       style="{{ request()->routeIs('assessments*') ? 'color: var(--primary-accent)' : '' }}"></i>
+                    <span :class="sidebarCollapsed ? 'lg:hidden' : ''">Progres Kebugaran</span>
+                </a>
+
                 @if(Auth::user()->isOwner())
                     <div class="text-[10px] font-extrabold uppercase tracking-widest text-amber-400 px-3 pb-1.5 pt-4 flex items-center justify-between"
                          :class="sidebarCollapsed ? 'lg:hidden' : ''">
@@ -993,6 +1004,13 @@
                        class="flex items-center gap-3 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('reports.index*') ? 'bg-gradient-to-r from-amber-500/20 to-orange-500/10 text-amber-400 border border-amber-500/30 font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
                         <i class="fa-solid fa-chart-line w-5 text-center {{ request()->routeIs('reports.index*') ? 'text-amber-400' : 'text-slate-400' }}"></i>
                         <span :class="sidebarCollapsed ? 'lg:hidden' : ''">Laporan Laba & Keuangan</span>
+                    </a>
+
+                    <a href="{{ route('activities.index') }}" title="Log Aktivitas & Audit User"
+                       :class="sidebarCollapsed ? 'lg:justify-center lg:px-0' : 'px-3.5'"
+                       class="flex items-center gap-3 py-2.5 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('activities.index*') ? 'bg-gradient-to-r from-amber-500/20 to-orange-500/10 text-amber-400 border border-amber-500/30 font-bold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
+                        <i class="fa-solid fa-shield-halved w-5 text-center {{ request()->routeIs('activities.index*') ? 'text-amber-400' : 'text-slate-400' }}"></i>
+                        <span :class="sidebarCollapsed ? 'lg:hidden' : ''">Log Aktivitas (Audit)</span>
                     </a>
 
                     <a href="{{ route('users.index') }}" title="Kelola Kasir & Owner"

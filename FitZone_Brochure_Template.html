@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>FitZone Pro — Proposal & Brosur Software Manajemen Gym</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: A4 portrait;
+            margin: 0;
+        }
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0b0f19;
+            color: #334155;
+            line-height: 1.45;
+            -webkit-font-smoothing: antialiased;
+        }
+        .page {
+            width: 210mm;
+            height: 297mm;
+            max-height: 297mm;
+            page-break-after: always;
+            position: relative;
+            background: #ffffff;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 16mm 18mm 14mm 18mm;
+        }
+
+        /* Typography */
+        .font-display { font-family: 'Outfit', sans-serif; }
+        
+        /* Gradients & Accents */
+        .text-emerald { color: #059669; }
+        .bg-emerald { background-color: #10b981; }
+        .border-emerald { border-color: #10b981; }
+        .gradient-dark {
+            background: linear-gradient(135deg, #090d16 0%, #111827 50%, #060911 100%);
+        }
+        .gradient-emerald-badge {
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+        }
+        .gradient-emerald-soft {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(5, 150, 105, 0.03) 100%);
+        }
+        .gradient-slate-soft {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+
+        /* Utilities */
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .justify-center { justify-content: center; }
+        .grid { display: grid; }
+        .gap-2 { gap: 8px; }
+        .gap-3 { gap: 12px; }
+        .gap-4 { gap: 16px; }
+        .gap-5 { gap: 20px; }
+        .gap-6 { gap: 24px; }
+        
+        .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+        .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04); }
+        .rounded-lg { border-radius: 8px; }
+        .rounded-xl { border-radius: 12px; }
+        .rounded-2xl { border-radius: 16px; }
+        .rounded-full { border-radius: 9999px; }
+
+        /* Specific Components */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border-radius: 9999px;
+        }
+
+        .header-footer-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            color: #94a3b8;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 8px;
+        }
+
+        .page-num {
+            font-weight: 700;
+            color: #059669;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========================================== -->
+    <!-- HALAMAN 1: COVER & EXECUTIVE SUMMARY       -->
+    <!-- ========================================== -->
+    <div class="page" style="background: linear-gradient(175deg, #070a12 0%, #0d1527 60%, #060911 100%); color: #f8fafc; padding: 18mm 18mm 14mm 18mm;">
+        <!-- Top Nav / Brand Header -->
+        <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 14px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, #10b981 0%, #047857 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(16,185,129,0.4);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 5v14M18 5v14M2 9v6M22 9v6M6 12h12"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="font-display" style="font-size: 22px; font-weight: 900; letter-spacing: -0.5px; line-height: 1; color: #ffffff;">
+                            FitZone <span style="color: #10b981;">PRO</span>
+                        </div>
+                        <div style="font-size: 9.5px; font-weight: 600; color: #94a3b8; letter-spacing: 0.8px; text-transform: uppercase;">
+                            Fitness & Gym Management System
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                        Enterprise Edition 2026
+                    </span>
+                    <span style="background: rgba(255,255,255,0.06); color: #cbd5e1; border: 1px solid rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: 600;">
+                        B2B Proposal & Product Sheet
+                    </span>
+                </div>
+            </div>
+
+            <!-- Hero Intro Section -->
+            <div style="margin-top: 28px;">
+                <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.25); border-radius: 9999px; padding: 5px 14px; margin-bottom: 16px;">
+                    <span style="width: 8px; height: 8px; border-radius: 50%; background-color: #10b981; box-shadow: 0 0 8px #10b981;"></span>
+                    <span style="font-size: 11px; font-weight: 700; color: #6ee7b7; text-transform: uppercase; letter-spacing: 0.5px;">
+                        Revolusi Manajemen Gym & Fitness Center Modern
+                    </span>
+                </div>
+
+                <h1 class="font-display" style="font-size: 34px; font-weight: 900; line-height: 1.18; color: #ffffff; letter-spacing: -0.8px; margin-bottom: 14px;">
+                    Tingkatkan Omset, Cegah Kebocoran Kasir & Otomasi Operasional Gym Anda
+                </h1>
+
+                <p style="font-size: 13.5px; line-height: 1.6; color: #cbd5e1; max-width: 680px; margin-bottom: 24px;">
+                    FitZone Pro adalah software aplikasi manajemen gym terpadu berbasis cloud/lokal yang dirancang khusus untuk mempermudah owner memantau membership, transaksi kasir POS suplemen, jadwal studio, absensi trainer, hingga laporan laba rugi secara <i>real-time</i> dan transparan.
+                </p>
+            </div>
+
+            <!-- Visual Mockup Showcase / Preview -->
+            <div style="background: rgba(15,23,42,0.85); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 18px 20px; box-shadow: 0 20px 40px -15px rgba(0,0,0,0.6); position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px; margin-bottom: 14px;">
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="width: 9px; height: 9px; border-radius: 50%; background: #ef4444;"></span>
+                        <span style="width: 9px; height: 9px; border-radius: 50%; background: #f59e0b;"></span>
+                        <span style="width: 9px; height: 9px; border-radius: 50%; background: #10b981;"></span>
+                        <span style="margin-left: 10px; font-size: 10.5px; color: #94a3b8; font-family: monospace;">app.fitzone.com/admin/dashboard</span>
+                    </div>
+                    <span style="font-size: 10px; font-weight: 700; color: #34d399; background: rgba(16,185,129,0.15); padding: 2px 8px; border-radius: 4px;">● LIVE DASHBOARD KPI</span>
+                </div>
+
+                <!-- 4 KPI Card Previews -->
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px;">
+                    <div style="background: rgba(30,41,59,0.6); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 10px 12px;">
+                        <div style="font-size: 9.5px; color: #94a3b8; font-weight: 600; text-transform: uppercase;">Total Member Aktif</div>
+                        <div class="font-display" style="font-size: 20px; font-weight: 800; color: #ffffff; margin-top: 2px;">1,284 <span style="font-size: 10px; color: #10b981; font-weight: 600;">↑ 12%</span></div>
+                    </div>
+                    <div style="background: rgba(30,41,59,0.6); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 10px 12px;">
+                        <div style="font-size: 9.5px; color: #94a3b8; font-weight: 600; text-transform: uppercase;">Omset Bulan Ini</div>
+                        <div class="font-display" style="font-size: 20px; font-weight: 800; color: #34d399; margin-top: 2px;">Rp 84.5M <span style="font-size: 10px; color: #10b981; font-weight: 600;">↑ 18%</span></div>
+                    </div>
+                    <div style="background: rgba(30,41,59,0.6); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 10px 12px;">
+                        <div style="font-size: 9.5px; color: #94a3b8; font-weight: 600; text-transform: uppercase;">Kasir POS Suplemen</div>
+                        <div class="font-display" style="font-size: 20px; font-weight: 800; color: #ffffff; margin-top: 2px;">342 Trx <span style="font-size: 10px; color: #38bdf8; font-weight: 600;">Hari ini</span></div>
+                    </div>
+                    <div style="background: rgba(30,41,59,0.6); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 10px 12px;">
+                        <div style="font-size: 9.5px; color: #94a3b8; font-weight: 600; text-transform: uppercase;">Reservasi Kelas Studio</div>
+                        <div class="font-display" style="font-size: 20px; font-weight: 800; color: #f59e0b; margin-top: 2px;">96% Full <span style="font-size: 10px; color: #cbd5e1; font-weight: 600;">8 Sesi</span></div>
+                    </div>
+                </div>
+
+                <!-- Mini Bar Graph / Activity Simulation -->
+                <div style="background: rgba(2,6,23,0.5); border-radius: 8px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(16,185,129,0.2); display: flex; align-items: center; justify-content: center;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; font-weight: 700; color: #ffffff;">Monitoring Real-time Multi-Perangkat</div>
+                            <div style="font-size: 9.5px; color: #94a3b8;">Akses fleksibel dari PC Kasir, Tablet Frontdesk, hingga Smartphone Owner</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 6px;">
+                        <span style="font-size: 9px; background: rgba(255,255,255,0.1); padding: 3px 8px; border-radius: 4px; color: #e2e8f0;">Auto Sync</span>
+                        <span style="font-size: 9px; background: rgba(16,185,129,0.2); padding: 3px 8px; border-radius: 4px; color: #34d399; font-weight: 700;">Anti Kebocoran</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Target Market Badges -->
+            <div style="margin-top: 22px;">
+                <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px;">
+                    Solusi Teruji & Dirancang Khusus Untuk:
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                    <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 16px;">🏋️‍♂️</span>
+                        <span style="font-size: 11px; font-weight: 600; color: #e2e8f0;">Commercial Gym</span>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 16px;">🧘‍♀️</span>
+                        <span style="font-size: 11px; font-weight: 600; color: #e2e8f0;">Studio Yoga & Pilates</span>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 16px;">🥊</span>
+                        <span style="font-size: 11px; font-weight: 600; color: #e2e8f0;">CrossFit & Muay Thai</span>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 16px;">🏢</span>
+                        <span style="font-size: 11px; font-weight: 600; color: #e2e8f0;">Fitness Center Hotel</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Cover -->
+        <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: #64748b;">
+            <div>Dokumen Resmi: Penawaran Solusi Software FitZone Pro • Versi 2.4 (2026)</div>
+            <div style="color: #10b981; font-weight: 700;">Halaman 1 dari 4</div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- HALAMAN 2: PROBLEM VS SOLUTION & CORE MOD  -->
+    <!-- ========================================== -->
+    <div class="page" style="background: #ffffff;">
+        <div>
+            <!-- Running Header -->
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 18px;">
+                <div style="font-size: 11px; font-weight: 800; color: #059669; letter-spacing: 0.5px; text-transform: uppercase;">
+                    FitZone Pro • Arsitektur Masalah & Solusi
+                </div>
+                <div style="font-size: 10px; color: #64748b; font-weight: 600;">
+                    Efisiensi Tanpa Batas untuk Bisnis Kebugaran
+                </div>
+            </div>
+
+            <!-- Section Title -->
+            <div style="margin-bottom: 16px;">
+                <h2 class="font-display" style="font-size: 22px; font-weight: 800; color: #0f172a; line-height: 1.25;">
+                    Tinggalkan Cara Lama yang Menguras Waktu & Berisiko Kebocoran Dana
+                </h2>
+                <p style="font-size: 11.5px; color: #64748b; margin-top: 4px;">
+                    Perbandingan operasional antara metode manual konvensional vs digitalisasi modern FitZone Pro:
+                </p>
+            </div>
+
+            <!-- Comparison Table Matrix -->
+            <div style="border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; margin-bottom: 22px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+                <div style="display: grid; grid-template-columns: 2fr 3fr 3fr; background: #0f172a; color: #ffffff; padding: 8px 12px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                    <div>Aspek Operasional</div>
+                    <div style="color: #f87171;">Metode Lama (Buku / Excel)</div>
+                    <div style="color: #34d399;">Solusi FitZone Pro</div>
+                </div>
+                <div style="display: grid; grid-template-columns: 2fr 3fr 3fr; padding: 9px 12px; font-size: 11px; border-bottom: 1px solid #f1f5f9; background: #ffffff;">
+                    <div style="font-weight: 700; color: #1e293b;">Data Keanggotaan</div>
+                    <div style="color: #dc2626;">Buku tamu sering robek, kartu hilang, data tercecer</div>
+                    <div style="color: #047857; font-weight: 600;">ID Digital otomatis, filter status aktif/expired realtime</div>
+                </div>
+                <div style="display: grid; grid-template-columns: 2fr 3fr 3fr; padding: 9px 12px; font-size: 11px; border-bottom: 1px solid #f1f5f9; background: #f8fafc;">
+                    <div style="font-weight: 700; color: #1e293b;">Penjualan Suplemen & Cafe</div>
+                    <div style="color: #dc2626;">Rawan barang hilang, selisih stok uang kas vs fisik</div>
+                    <div style="color: #047857; font-weight: 600;">Kasir POS barcode, auto potong stok, cetak struk nota</div>
+                </div>
+                <div style="display: grid; grid-template-columns: 2fr 3fr 3fr; padding: 9px 12px; font-size: 11px; border-bottom: 1px solid #f1f5f9; background: #ffffff;">
+                    <div style="font-weight: 700; color: #1e293b;">Jadwal Kelas & Trainer</div>
+                    <div style="color: #dc2626;">Bentrok lewat chat WA, kuota overcapacity di studio</div>
+                    <div style="color: #047857; font-weight: 600;">Kalender interaktif, batasan kuota otomatis & sistem booking</div>
+                </div>
+                <div style="display: grid; grid-template-columns: 2fr 3fr 3fr; padding: 9px 12px; font-size: 11px; background: #f8fafc;">
+                    <div style="font-weight: 700; color: #1e293b;">Laporan Finansial Owner</div>
+                    <div style="color: #dc2626;">Hitung manual berjam-jam tiap akhir bulan, data rawan dimanipulasi</div>
+                    <div style="color: #047857; font-weight: 600;">Dashboard visual instan, rekapan pendapatan bisa dicek kapan saja</div>
+                </div>
+            </div>
+
+            <!-- Deep Dive Feature Modules (Part 1: 3 Core Pillars) -->
+            <div style="margin-bottom: 12px;">
+                <div class="font-display" style="font-size: 16px; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 8px;">
+                    <span style="width: 4px; height: 18px; background: #10b981; border-radius: 2px;"></span>
+                    Modul Inti Operasional Harian
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+                <!-- Module 1 -->
+                <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);">
+                    <div style="width: 36px; height: 36px; border-radius: 8px; background: #ecfdf5; border: 1px solid #a7f3d0; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-display" style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">
+                        1. Manajemen Member & Paket
+                    </h3>
+                    <p style="font-size: 11px; color: #64748b; line-height: 1.5; margin-bottom: 8px;">
+                        Pengelolaan seluruh keanggotaan dalam satu klik dengan sistem registrasi cepat.
+                    </p>
+                    <ul style="font-size: 10.5px; color: #334155; list-style: none; padding-left: 0; line-height: 1.6;">
+                        <li>✔ Auto Member ID & Biodata Lengkap</li>
+                        <li>✔ Fleksibilitas Paket (Bulanan, VIP, Student)</li>
+                        <li>✔ Status Expired & Renewal Alert</li>
+                        <li>✔ Riwayat Perpanjangan Transparan</li>
+                    </ul>
+                </div>
+
+                <!-- Module 2 -->
+                <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);">
+                    <div style="width: 36px; height: 36px; border-radius: 8px; background: #eff6ff; border: 1px solid #bfdbfe; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-display" style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">
+                        2. POS Kasir Suplemen & Cafe
+                    </h3>
+                    <p style="font-size: 11px; color: #64748b; line-height: 1.5; margin-bottom: 8px;">
+                        Kasir khusus gym untuk menjual whey protein, BCAA, baju gym, hingga minuman dingin.
+                    </p>
+                    <ul style="font-size: 10.5px; color: #334155; list-style: none; padding-left: 0; line-height: 1.6;">
+                        <li>✔ Keranjang belanja cepat & barcode search</li>
+                        <li>✔ Multi-pembayaran (Tunai & QRIS/Bank)</li>
+                        <li>✔ Auto Potong Stok & Low Stock Warning</li>
+                        <li>✔ Cetak Struk Nota Thermal 58mm/80mm</li>
+                    </ul>
+                </div>
+
+                <!-- Module 3 -->
+                <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);">
+                    <div style="width: 36px; height: 36px; border-radius: 8px; background: #fef3c7; border: 1px solid #fde68a; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                    </div>
+                    <h3 class="font-display" style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">
+                        3. Jadwal Kelas & Booking Trainer
+                    </h3>
+                    <p style="font-size: 11px; color: #64748b; line-height: 1.5; margin-bottom: 8px;">
+                        Organisir kelas studio (Yoga, HIIT, Zumba, Pilates) dan jadwal personal trainer.
+                    </p>
+                    <ul style="font-size: 10.5px; color: #334155; list-style: none; padding-left: 0; line-height: 1.6;">
+                        <li>✔ Kalender visual interaktif frontdesk</li>
+                        <li>✔ Pembatasan kuota kapasitas ruangan</li>
+                        <li>✔ Penugasan Personal Trainer (PT) spesifik</li>
+                        <li>✔ Status kehadiran member (Hadir/Batal)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Operational Impact Callout Box -->
+            <div style="margin-top: 18px; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 10px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="font-size: 22px;">⚡</div>
+                    <div>
+                        <div style="font-size: 11.5px; font-weight: 800; color: #065f46;">Efisiensi Waktu Kerja Frontdesk Hingga 60%</div>
+                        <div style="font-size: 10.5px; color: #047857;">Semua transaksi pendaftaran member dan kasir selesai dalam waktu kurang dari 30 detik.</div>
+                    </div>
+                </div>
+                <span style="font-size: 10px; font-weight: 700; background: #059669; color: #ffffff; padding: 4px 10px; border-radius: 6px;">100% Paperless</span>
+            </div>
+        </div>
+
+        <!-- Running Footer -->
+        <div class="header-footer-bar">
+            <div>FitZone Pro Gym Management Platform • Solusi Sistem Terpadu</div>
+            <div>Halaman <span class="page-num">2</span> dari 4</div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- HALAMAN 3: PUBLIC WEB, REPORTS & BRANDING  -->
+    <!-- ========================================== -->
+    <div class="page" style="background: #ffffff;">
+        <div>
+            <!-- Running Header -->
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 18px;">
+                <div style="font-size: 11px; font-weight: 800; color: #059669; letter-spacing: 0.5px; text-transform: uppercase;">
+                    FitZone Pro • Modul Unggulan & Ekosistem Bisnis
+                </div>
+                <div style="font-size: 10px; color: #64748b; font-weight: 600;">
+                    Kenyamanan Member & Kontrol Finansial Owner
+                </div>
+            </div>
+
+            <div style="margin-bottom: 16px;">
+                <h2 class="font-display" style="font-size: 22px; font-weight: 800; color: #0f172a; line-height: 1.25;">
+                    Ekosistem Lengkap: Dari Website Promosi hingga Laporan Finansial Owner
+                </h2>
+                <p style="font-size: 11.5px; color: #64748b; margin-top: 4px;">
+                    FitZone Pro tidak hanya mencatat data, tetapi juga menjadi mesin promosi dan pelindung profit bisnis kebugaran Anda.
+                </p>
+            </div>
+
+            <!-- Grid 3 Additional Power Modules -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 18px;">
+                <!-- Module 4 -->
+                <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);">
+                    <div style="width: 36px; height: 36px; border-radius: 8px; background: #f3e8ff; border: 1px solid #e9d5ff; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="2.2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-display" style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">
+                        4. Website Landing Page Publik
+                    </h3>
+                    <p style="font-size: 11px; color: #64748b; line-height: 1.5; margin-bottom: 8px;">
+                        Gym Anda otomatis memiliki landing page modern tanpa perlu sewa web developer lagi!
+                    </p>
+                    <ul style="font-size: 10.5px; color: #334155; list-style: none; padding-left: 0; line-height: 1.6;">
+                        <li>✔ Etalase Jadwal Kelas & Profil Trainer</li>
+                        <li>✔ Katalog Harga Paket & Suplemen Resmi</li>
+                        <li>✔ Form Booking Online Publik Mandiri</li>
+                        <li>✔ Fitur Cek Status Reservasi Member</li>
+                    </ul>
+                </div>
+
+                <!-- Module 5 -->
+                <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);">
+                    <div style="width: 36px; height: 36px; border-radius: 8px; background: #ecfeff; border: 1px solid #a5f3fc; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2.2">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                    </div>
+                    <h3 class="font-display" style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">
+                        5. Laporan & Business Intelligence
+                    </h3>
+                    <p style="font-size: 11px; color: #64748b; line-height: 1.5; margin-bottom: 8px;">
+                        Analitik lengkap omset bisnis gym untuk pengambilan keputusan strategis owner.
+                    </p>
+                    <ul style="font-size: 10.5px; color: #334155; list-style: none; padding-left: 0; line-height: 1.6;">
+                        <li>✔ Pemisahan Revenue Membership vs POS</li>
+                        <li>✔ Analisis Tren Member Baru vs Churn</li>
+                        <li>✔ Produk Terlaris & Riwayat Pembayaran</li>
+                        <li>✔ Rekap Transaksi Siap Ekspor</li>
+                    </ul>
+                </div>
+
+                <!-- Module 6 -->
+                <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);">
+                    <div style="width: 36px; height: 36px; border-radius: 8px; background: #fff1f2; border: 1px solid #fecdd3; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="2.2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-display" style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">
+                        6. Multi-Theme & White-Label
+                    </h3>
+                    <p style="font-size: 11px; color: #64748b; line-height: 1.5; margin-bottom: 8px;">
+                        Brand gym Anda tetap nomor satu. Bebas kustomisasi identitas dan warna.
+                    </p>
+                    <ul style="font-size: 10.5px; color: #334155; list-style: none; padding-left: 0; line-height: 1.6;">
+                        <li>✔ Upload Logo, Nama Gym, Tagline & Rekening</li>
+                        <li>✔ Pilihan 5 Tema Warna (Emerald, Cyan, Rose, dll)</li>
+                        <li>✔ Mode Dark / Light yang nyaman di mata</li>
+                        <li>✔ Pengaturan Footer Nota Struk Belanja</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Deep Dive Feature Spotlight: Hak Akses & Keamanan -->
+            <div style="background: #0f172a; color: #ffffff; border-radius: 12px; padding: 16px 20px; margin-bottom: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <div class="font-display" style="font-size: 15px; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 8px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.3">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        Keamanan & Hak Akses Bertingkat (Role-Based Access)
+                    </div>
+                    <span style="font-size: 10px; color: #94a3b8; background: rgba(255,255,255,0.1); padding: 3px 8px; border-radius: 4px;">Role Permission Guard</span>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; font-size: 10.5px;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; border-left: 3px solid #10b981;">
+                        <div style="font-weight: 700; color: #6ee7b7;">👑 Super Admin / Owner</div>
+                        <div style="color: #94a3b8; font-size: 9.5px; margin-top: 3px;">Akses penuh ke semua laporan omset, master data, pengaturan sistem, dan audit keuangan.</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                        <div style="font-weight: 700; color: #7dd3fc;">💼 Manajer Operasional</div>
+                        <div style="color: #94a3b8; font-size: 9.5px; margin-top: 3px;">Mengelola paket, verifikasi booking, evaluasi trainer, dan stok persediaan suplemen.</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                        <div style="font-weight: 700; color: #fde68a;">🛒 Kasir POS & Frontdesk</div>
+                        <div style="color: #94a3b8; font-size: 9.5px; margin-top: 3px;">Registrasi member baru, perpanjangan masa aktif, transaksi suplemen kasir, dan cetak struk.</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; border-left: 3px solid #c084fc;">
+                        <div style="font-weight: 700; color: #e9d5ff;">💪 Personal Trainer (PT)</div>
+                        <div style="color: #94a3b8; font-size: 9.5px; margin-top: 3px;">Melihat jadwal sesi kelas yang diampu, absensi kehadiran murid, dan kapasitas studio.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technology Stack Assurance -->
+            <div style="border: 1px dashed #cbd5e1; border-radius: 10px; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; background: #f8fafc;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 18px;">🛡️</span>
+                    <div style="font-size: 10.5px; color: #475569;">
+                        <b>Teknologi Terkini:</b> Ditenagai oleh <b>Laravel 11 Enterprise Framework</b> yang terbukti aman, super cepat, dan anti-crash saat lonjakan pengunjung.
+                    </div>
+                </div>
+                <div style="font-size: 10px; color: #059669; font-weight: 700;">Zero Monthly Server Overhead</div>
+            </div>
+        </div>
+
+        <!-- Running Footer -->
+        <div class="header-footer-bar">
+            <div>FitZone Pro Gym Management Platform • Solusi Sistem Terpadu</div>
+            <div>Halaman <span class="page-num">3</span> dari 4</div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- HALAMAN 4: ROI, PRICING & CALL TO ACTION   -->
+    <!-- ========================================== -->
+    <div class="page" style="background: #ffffff;">
+        <div>
+            <!-- Running Header -->
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 16px;">
+                <div style="font-size: 11px; font-weight: 800; color: #059669; letter-spacing: 0.5px; text-transform: uppercase;">
+                    FitZone Pro • Paket Investasi & Implementasi
+                </div>
+                <div style="font-size: 10px; color: #64748b; font-weight: 600;">
+                    Investasi Cerdas dengan ROI Terbukti
+                </div>
+            </div>
+
+            <!-- Value & ROI Banner -->
+            <div style="background: linear-gradient(135deg, #064e3b 0%, #065f46 100%); color: #ffffff; border-radius: 12px; padding: 14px 18px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div style="font-size: 10px; font-weight: 700; color: #6ee7b7; text-transform: uppercase; letter-spacing: 0.5px;">Return on Investment (ROI)</div>
+                    <div class="font-display" style="font-size: 17px; font-weight: 800; margin-top: 2px;">Cepat Balik Modal dalam Waktu Kurang dari 30 Hari</div>
+                    <div style="font-size: 10.5px; color: #d1fae5; margin-top: 4px;">Mencegah potensi kebocoran transaksi suplemen kasir Rp 2-5 Juta/bulan & menaikkan perpanjangan member hingga 35%.</div>
+                </div>
+                <div style="text-align: right; background: rgba(0,0,0,0.25); padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15);">
+                    <div style="font-size: 9.5px; color: #a7f3d0;">Kepuasan Klien</div>
+                    <div class="font-display" style="font-size: 20px; font-weight: 900; color: #34d399;">99.4%</div>
+                    <div style="font-size: 8.5px; color: #cbd5e1;">Rekomendasi Owner</div>
+                </div>
+            </div>
+
+            <!-- Pricing Tier Table (3 Options) -->
+            <div style="margin-bottom: 18px;">
+                <div style="font-size: 13px; font-weight: 800; color: #0f172a; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px;">
+                    Pilihan Paket Lisensi Software FitZone Pro
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                    
+                    <!-- Tier 1: Starter -->
+                    <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; background: #ffffff; position: relative;">
+                        <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Paket Starter</div>
+                        <div class="font-display" style="font-size: 18px; font-weight: 900; color: #0f172a; margin: 4px 0;">Studio Mandiri</div>
+                        <div style="font-size: 10px; color: #64748b; margin-bottom: 12px;">Untuk gym pemula / studio kecil yang ingin mulai digitalisasi.</div>
+                        <div style="border-top: 1px solid #f1f5f9; padding-top: 10px; font-size: 10.5px; color: #334155; line-height: 1.7;">
+                            <div>✔ Manajemen Member & Paket</div>
+                            <div>✔ Kasir POS Suplemen Dasar</div>
+                            <div>✔ Cetak Struk Transaksi</div>
+                            <div>✔ Laporan Penjualan Standar</div>
+                            <div>✔ 1 Akun Administrator</div>
+                            <div style="color: #94a3b8; text-decoration: line-through;">✘ Landing Page Publik</div>
+                            <div style="color: #94a3b8; text-decoration: line-through;">✘ Multi-Theme Color</div>
+                        </div>
+                    </div>
+
+                    <!-- Tier 2: Professional (Recommended) -->
+                    <div style="border: 2px solid #10b981; border-radius: 12px; padding: 14px; background: #ffffff; position: relative; box-shadow: 0 8px 20px -6px rgba(16,185,129,0.25);">
+                        <div style="position: absolute; top: -10px; right: 12px; background: #10b981; color: #ffffff; font-size: 9px; font-weight: 800; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.5px;">
+                            Paling Diminati ★
+                        </div>
+                        <div style="font-size: 11px; font-weight: 700; color: #059669; text-transform: uppercase;">Paket Pro Gym</div>
+                        <div class="font-display" style="font-size: 18px; font-weight: 900; color: #0f172a; margin: 4px 0;">Commercial Fitness</div>
+                        <div style="font-size: 10px; color: #64748b; margin-bottom: 12px;">Solusi lengkap untuk gym modern dengan kelas & kasir aktif.</div>
+                        <div style="border-top: 1px solid #f1f5f9; padding-top: 10px; font-size: 10.5px; color: #334155; line-height: 1.7;">
+                            <div>✔ <b>Semua Fitur Starter</b></div>
+                            <div>✔ <b>Website Landing Page Publik</b></div>
+                            <div>✔ <b>Online Booking & Cek Status</b></div>
+                            <div>✔ <b>Jadwal Kelas & Manajemen PT</b></div>
+                            <div>✔ <b>Multi-Theme (5 Warna Aksen)</b></div>
+                            <div>✔ <b>Role Multi-User (Kasir, Frontdesk)</b></div>
+                            <div>✔ <b>Laporan Finansial Komprehensif</b></div>
+                        </div>
+                    </div>
+
+                    <!-- Tier 3: Enterprise -->
+                    <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; background: #ffffff; position: relative;">
+                        <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Paket Enterprise</div>
+                        <div class="font-display" style="font-size: 18px; font-weight: 900; color: #0f172a; margin: 4px 0;">Multi-Cabang & Custom</div>
+                        <div style="font-size: 10px; color: #64748b; margin-bottom: 12px;">Untuk waralaba gym besar, hotel, atau jaringan kebugaran.</div>
+                        <div style="border-top: 1px solid #f1f5f9; padding-top: 10px; font-size: 10.5px; color: #334155; line-height: 1.7;">
+                            <div>✔ <b>Semua Fitur Pro Gym</b></div>
+                            <div>✔ <b>Dukungan Multi-Cabang / Lokasi</b></div>
+                            <div>✔ <b>Custom Domain & Branding Eksklusif</b></div>
+                            <div>✔ <b>Setup Server Cloud / On-Premise</b></div>
+                            <div>✔ <b>Pendampingan Training Staf 1-on-1</b></div>
+                            <div>✔ <b>Dukungan Prioritas VIP 24/7</b></div>
+                            <div>✔ <b>Garansi Pemeliharaan Berkala</b></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 4-Step Quick Implementation -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 16px; margin-bottom: 18px;">
+                <div style="font-size: 11px; font-weight: 800; color: #0f172a; text-transform: uppercase; margin-bottom: 8px;">
+                    4 Langkah Cepat Implementasi — Siap Pakai Dalam 1 Hari:
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; font-size: 10.5px;">
+                    <div style="display: flex; gap: 8px; align-items: flex-start;">
+                        <span style="width: 20px; height: 20px; border-radius: 50%; background: #10b981; color: #ffffff; font-weight: 800; font-size: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</span>
+                        <div><b>Konsultasi & Setup:</b> Penyesuaian nama, logo, tema warna, dan nomor rekening gym.</div>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-start;">
+                        <span style="width: 20px; height: 20px; border-radius: 50%; background: #10b981; color: #ffffff; font-weight: 800; font-size: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</span>
+                        <div><b>Input Master Data:</b> Masukkan daftar paket membership, inventaris suplemen, dan jadwal trainer.</div>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-start;">
+                        <span style="width: 20px; height: 20px; border-radius: 50%; background: #10b981; color: #ffffff; font-weight: 800; font-size: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</span>
+                        <div><b>Pelatihan Staf:</b> Training penggunaan sistem untuk kasir dan frontdesk (hanya butuh 30 menit).</div>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-start;">
+                        <span style="width: 20px; height: 20px; border-radius: 50%; background: #10b981; color: #ffffff; font-weight: 800; font-size: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">4</span>
+                        <div><b>Go-Live & Support:</b> Sistem resmi beroperasi dengan pendampingan penuh dari tim teknis.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to Action & Contact Information Card -->
+            <div style="border: 2px solid #0f172a; border-radius: 12px; padding: 16px 20px; background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%); display: flex; justify-content: space-between; align-items: center;">
+                <div style="max-width: 420px;">
+                    <div style="font-size: 11px; font-weight: 800; color: #059669; text-transform: uppercase; letter-spacing: 0.5px;">Jadwalkan Demo Gratis Sekarang</div>
+                    <div class="font-display" style="font-size: 17px; font-weight: 900; color: #0f172a; margin-top: 2px;">
+                        Siap Mentransformasi Bisnis Gym Anda?
+                    </div>
+                    <p style="font-size: 10.5px; color: #64748b; margin-top: 4px;">
+                        Hubungi tim konsultan kami untuk presentasi langsung (online via Zoom / visit langsung ke lokasi gym Anda).
+                    </p>
+                </div>
+                <div style="border-left: 2px solid #e2e8f0; padding-left: 20px;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                        <span style="font-size: 14px;">📱</span>
+                        <span style="font-size: 12px; font-weight: 800; color: #0f172a;">WhatsApp: 0812-3456-7890</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                        <span style="font-size: 14px;">✉️</span>
+                        <span style="font-size: 11.5px; font-weight: 600; color: #334155;">Email: info@fitzone.com</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 14px;">🌐</span>
+                        <span style="font-size: 11.5px; font-weight: 600; color: #059669;">Website: www.fitzone.com</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Running Footer -->
+        <div class="header-footer-bar">
+            <div>FitZone Pro Gym Management Platform • Proposal Bisnis & Lisensi Software</div>
+            <div>Halaman <span class="page-num">4</span> dari 4</div>
+        </div>
+    </div>
+
+</body>
+</html>

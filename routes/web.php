@@ -75,6 +75,17 @@ Route::middleware('auth')->group(function () {
     Route::put('/classes/{fitnessClass}', [TrainerController::class, 'updateClass'])->name('classes.update');
     Route::delete('/classes/{fitnessClass}', [TrainerController::class, 'destroyClass'])->name('classes.destroy');
 
+    // Member Fitness & Body Measurement Assessments (Progres Kebugaran & Asesmen Trainer)
+    Route::get('/assessments', [\App\Http\Controllers\MemberAssessmentController::class, 'index'])->name('assessments.index');
+    Route::get('/assessments/create', [\App\Http\Controllers\MemberAssessmentController::class, 'create'])->name('assessments.create');
+    Route::post('/assessments', [\App\Http\Controllers\MemberAssessmentController::class, 'store'])->name('assessments.store');
+    Route::get('/assessments/{assessment}', [\App\Http\Controllers\MemberAssessmentController::class, 'show'])->name('assessments.show');
+    Route::get('/assessments/{assessment}/edit', [\App\Http\Controllers\MemberAssessmentController::class, 'edit'])->name('assessments.edit');
+    Route::put('/assessments/{assessment}', [\App\Http\Controllers\MemberAssessmentController::class, 'update'])->name('assessments.update');
+    Route::delete('/assessments/{assessment}', [\App\Http\Controllers\MemberAssessmentController::class, 'destroy'])->name('assessments.destroy');
+    Route::get('/assessments/member/{member}', [\App\Http\Controllers\MemberAssessmentController::class, 'memberHistory'])->name('assessments.member');
+    Route::get('/assessments/{assessment}/print', [\App\Http\Controllers\MemberAssessmentController::class, 'printCard'])->name('assessments.print');
+
     // Owner Only Routes
     Route::middleware('role:owner')->group(function () {
         Route::delete('/supplements/{supplement}', [SupplementController::class, 'destroy'])->name('supplements.destroy');
@@ -90,6 +101,10 @@ Route::middleware('auth')->group(function () {
 
         // Financial & Profit Reports
         Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+
+        // Activity Logs & Audit Trail (INSERT, UPDATE, DELETE & User Tracking)
+        Route::get('/activities', [\App\Http\Controllers\ActivityLogController::class, 'index'])->name('activities.index');
+        Route::get('/activities/{activity}', [\App\Http\Controllers\ActivityLogController::class, 'show'])->name('activities.show');
 
         // Application Settings (Gym Identity, Logo, Address, Contact)
         Route::get('/settings', [\App\Http\Controllers\SettingController::class, 'index'])->name('settings.index');

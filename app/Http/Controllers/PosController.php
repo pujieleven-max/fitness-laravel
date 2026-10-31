@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Booking;
 use App\Models\Category;
 use App\Models\GymPackage;
@@ -127,8 +128,12 @@ class PosController extends Controller
 
             // Generate invoice number: INV-YYYYMMDD-XXXX
             $datePrefix = date('Ymd');
-            $latestOrder = Order::whereDate('created_at', Carbon::today())->latest('id')->first();
-            $sequence = $latestOrder ? (int) substr($latestOrder->invoice_no, -4) + 1 : 1;
+            $latestOrder = Order::where('invoice_no', 'like', "INV-{$datePrefix}-%")->orderByDesc('id')->first();
+            $sequence = 1;
+            if ($latestOrder) {
+                $parts = explode('-', $latestOrder->invoice_no);
+                $sequence = ((int) end($parts)) + 1;
+            }
             $invoiceNo = 'INV-' . $datePrefix . '-' . str_pad($sequence, 4, '0', STR_PAD_LEFT);
 
             $order = Order::create([
@@ -323,6 +328,15 @@ class PosController extends Controller
             }
 
             DB::commit();
+
+            ActivityLog::record(
+                'CANCEL',
+                'Transaksi POS',
+                "Owner membatalkan Invoice #{$order->invoice_no} (Total: Rp " . number_format($order->total_amount, 0, ',', '.') . ") dan mengembalikan stok suplemen.",
+                $order,
+                ['status' => 'completed', 'total_amount' => $order->total_amount],
+                ['status' => 'cancelled']
+            );
 
             return back()->with('success', "Transaksi #{$order->invoice_no} berhasil dibatalkan dan stok telah dikembalikan.");
         } catch (\Throwable $e) {

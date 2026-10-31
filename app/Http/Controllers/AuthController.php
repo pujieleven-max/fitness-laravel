@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,6 +38,16 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
+            // Track user login activity
+            ActivityLog::record(
+                'LOGIN',
+                'Autentikasi',
+                "Pengguna {$user->name} ({$user->role}) berhasil masuk ke sistem.",
+                $user,
+                null,
+                ['email' => $user->email, 'role' => $user->role]
+            );
+
             return redirect()->intended(route('dashboard'))
                 ->with('success', 'Selamat datang kembali, ' . $user->name . '!');
         }
@@ -48,6 +59,17 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        $user = Auth::user();
+        if ($user) {
+            // Track user logout activity
+            ActivityLog::record(
+                'LOGOUT',
+                'Autentikasi',
+                "Pengguna {$user->name} ({$user->role}) keluar dari sistem.",
+                $user
+            );
+        }
+
         Auth::logout();
 
         $request->session()->invalidate();
